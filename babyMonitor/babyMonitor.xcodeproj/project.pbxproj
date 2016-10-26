@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6015CA031DC0ED4C00A7CFB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6015CA021DC0ED4C00A7CFB8 /* AppDelegate.swift */; };
-		6015CA051DC0ED4C00A7CFB8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6015CA041DC0ED4C00A7CFB8 /* ViewController.swift */; };
-		6015CA081DC0ED4C00A7CFB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6015CA061DC0ED4C00A7CFB8 /* Main.storyboard */; };
-		6015CA0B1DC0ED4C00A7CFB8 /* babyMonitor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6015CA091DC0ED4C00A7CFB8 /* babyMonitor.xcdatamodeld */; };
-		6015CA0D1DC0ED4C00A7CFB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6015CA0C1DC0ED4C00A7CFB8 /* Assets.xcassets */; };
-		6015CA101DC0ED4C00A7CFB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6015CA0E1DC0ED4C00A7CFB8 /* LaunchScreen.storyboard */; };
+		60F9E1B51DC0EEBA0083D240 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F9E1B41DC0EEBA0083D240 /* AppDelegate.swift */; };
+		60F9E1B71DC0EEBA0083D240 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F9E1B61DC0EEBA0083D240 /* ViewController.swift */; };
+		60F9E1BA1DC0EEBA0083D240 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60F9E1B81DC0EEBA0083D240 /* Main.storyboard */; };
+		60F9E1BD1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 60F9E1BB1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld */; };
+		60F9E1BF1DC0EEBA0083D240 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60F9E1BE1DC0EEBA0083D240 /* Assets.xcassets */; };
+		60F9E1C21DC0EEBA0083D240 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60F9E1C01DC0EEBA0083D240 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6015C9FF1DC0ED4B00A7CFB8 /* babyMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = babyMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6015CA021DC0ED4C00A7CFB8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6015CA041DC0ED4C00A7CFB8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		6015CA071DC0ED4C00A7CFB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		6015CA0A1DC0ED4C00A7CFB8 /* babyMonitor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = babyMonitor.xcdatamodel; sourceTree = "<group>"; };
-		6015CA0C1DC0ED4C00A7CFB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6015CA0F1DC0ED4C00A7CFB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		6015CA111DC0ED4C00A7CFB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		60F9E1B11DC0EEBA0083D240 /* babyMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = babyMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		60F9E1B41DC0EEBA0083D240 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		60F9E1B61DC0EEBA0083D240 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		60F9E1B91DC0EEBA0083D240 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		60F9E1BC1DC0EEBA0083D240 /* babyMonitor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = babyMonitor.xcdatamodel; sourceTree = "<group>"; };
+		60F9E1BE1DC0EEBA0083D240 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		60F9E1C11DC0EEBA0083D240 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		60F9E1C31DC0EEBA0083D240 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6015C9FC1DC0ED4B00A7CFB8 /* Frameworks */ = {
+		60F9E1AE1DC0EEBA0083D240 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -37,32 +37,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6015C9F61DC0ED4B00A7CFB8 = {
+		60F9E1A81DC0EEBA0083D240 = {
 			isa = PBXGroup;
 			children = (
-				6015CA011DC0ED4B00A7CFB8 /* babyMonitor */,
-				6015CA001DC0ED4B00A7CFB8 /* Products */,
+				60F9E1B31DC0EEBA0083D240 /* babyMonitor */,
+				60F9E1B21DC0EEBA0083D240 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		6015CA001DC0ED4B00A7CFB8 /* Products */ = {
+		60F9E1B21DC0EEBA0083D240 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6015C9FF1DC0ED4B00A7CFB8 /* babyMonitor.app */,
+				60F9E1B11DC0EEBA0083D240 /* babyMonitor.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6015CA011DC0ED4B00A7CFB8 /* babyMonitor */ = {
+		60F9E1B31DC0EEBA0083D240 /* babyMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				6015CA021DC0ED4C00A7CFB8 /* AppDelegate.swift */,
-				6015CA041DC0ED4C00A7CFB8 /* ViewController.swift */,
-				6015CA061DC0ED4C00A7CFB8 /* Main.storyboard */,
-				6015CA0C1DC0ED4C00A7CFB8 /* Assets.xcassets */,
-				6015CA0E1DC0ED4C00A7CFB8 /* LaunchScreen.storyboard */,
-				6015CA111DC0ED4C00A7CFB8 /* Info.plist */,
-				6015CA091DC0ED4C00A7CFB8 /* babyMonitor.xcdatamodeld */,
+				60F9E1B41DC0EEBA0083D240 /* AppDelegate.swift */,
+				60F9E1B61DC0EEBA0083D240 /* ViewController.swift */,
+				60F9E1B81DC0EEBA0083D240 /* Main.storyboard */,
+				60F9E1BE1DC0EEBA0083D240 /* Assets.xcassets */,
+				60F9E1C01DC0EEBA0083D240 /* LaunchScreen.storyboard */,
+				60F9E1C31DC0EEBA0083D240 /* Info.plist */,
+				60F9E1BB1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld */,
 			);
 			path = babyMonitor;
 			sourceTree = "<group>";
@@ -70,13 +70,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6015C9FE1DC0ED4B00A7CFB8 /* babyMonitor */ = {
+		60F9E1B01DC0EEBA0083D240 /* babyMonitor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6015CA141DC0ED4C00A7CFB8 /* Build configuration list for PBXNativeTarget "babyMonitor" */;
+			buildConfigurationList = 60F9E1C61DC0EEBA0083D240 /* Build configuration list for PBXNativeTarget "babyMonitor" */;
 			buildPhases = (
-				6015C9FB1DC0ED4B00A7CFB8 /* Sources */,
-				6015C9FC1DC0ED4B00A7CFB8 /* Frameworks */,
-				6015C9FD1DC0ED4B00A7CFB8 /* Resources */,
+				60F9E1AD1DC0EEBA0083D240 /* Sources */,
+				60F9E1AE1DC0EEBA0083D240 /* Frameworks */,
+				60F9E1AF1DC0EEBA0083D240 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -84,27 +84,25 @@
 			);
 			name = babyMonitor;
 			productName = babyMonitor;
-			productReference = 6015C9FF1DC0ED4B00A7CFB8 /* babyMonitor.app */;
+			productReference = 60F9E1B11DC0EEBA0083D240 /* babyMonitor.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		6015C9F71DC0ED4B00A7CFB8 /* Project object */ = {
+		60F9E1A91DC0EEBA0083D240 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = FIT5140;
 				TargetAttributes = {
-					6015C9FE1DC0ED4B00A7CFB8 = {
-						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = ET8N4EUMNC;
-						ProvisioningStyle = Automatic;
+					60F9E1B01DC0EEBA0083D240 = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
-			buildConfigurationList = 6015C9FA1DC0ED4B00A7CFB8 /* Build configuration list for PBXProject "babyMonitor" */;
+			buildConfigurationList = 60F9E1AC1DC0EEBA0083D240 /* Build configuration list for PBXProject "babyMonitor" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -112,55 +110,55 @@
 				en,
 				Base,
 			);
-			mainGroup = 6015C9F61DC0ED4B00A7CFB8;
-			productRefGroup = 6015CA001DC0ED4B00A7CFB8 /* Products */;
+			mainGroup = 60F9E1A81DC0EEBA0083D240;
+			productRefGroup = 60F9E1B21DC0EEBA0083D240 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6015C9FE1DC0ED4B00A7CFB8 /* babyMonitor */,
+				60F9E1B01DC0EEBA0083D240 /* babyMonitor */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6015C9FD1DC0ED4B00A7CFB8 /* Resources */ = {
+		60F9E1AF1DC0EEBA0083D240 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6015CA101DC0ED4C00A7CFB8 /* LaunchScreen.storyboard in Resources */,
-				6015CA0D1DC0ED4C00A7CFB8 /* Assets.xcassets in Resources */,
-				6015CA081DC0ED4C00A7CFB8 /* Main.storyboard in Resources */,
+				60F9E1C21DC0EEBA0083D240 /* LaunchScreen.storyboard in Resources */,
+				60F9E1BF1DC0EEBA0083D240 /* Assets.xcassets in Resources */,
+				60F9E1BA1DC0EEBA0083D240 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6015C9FB1DC0ED4B00A7CFB8 /* Sources */ = {
+		60F9E1AD1DC0EEBA0083D240 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6015CA051DC0ED4C00A7CFB8 /* ViewController.swift in Sources */,
-				6015CA031DC0ED4C00A7CFB8 /* AppDelegate.swift in Sources */,
-				6015CA0B1DC0ED4C00A7CFB8 /* babyMonitor.xcdatamodeld in Sources */,
+				60F9E1B71DC0EEBA0083D240 /* ViewController.swift in Sources */,
+				60F9E1B51DC0EEBA0083D240 /* AppDelegate.swift in Sources */,
+				60F9E1BD1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		6015CA061DC0ED4C00A7CFB8 /* Main.storyboard */ = {
+		60F9E1B81DC0EEBA0083D240 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6015CA071DC0ED4C00A7CFB8 /* Base */,
+				60F9E1B91DC0EEBA0083D240 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		6015CA0E1DC0ED4C00A7CFB8 /* LaunchScreen.storyboard */ = {
+		60F9E1C01DC0EEBA0083D240 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6015CA0F1DC0ED4C00A7CFB8 /* Base */,
+				60F9E1C11DC0EEBA0083D240 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -168,7 +166,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		6015CA121DC0ED4C00A7CFB8 /* Debug */ = {
+		60F9E1C41DC0EEBA0083D240 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -180,13 +178,10 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -208,17 +203,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		6015CA131DC0ED4C00A7CFB8 /* Release */ = {
+		60F9E1C51DC0EEBA0083D240 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -230,13 +224,10 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -252,75 +243,70 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		6015CA151DC0ED4C00A7CFB8 /* Debug */ = {
+		60F9E1C71DC0EEBA0083D240 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = ET8N4EUMNC;
 				INFOPLIST_FILE = babyMonitor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FIT5140.babyMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
-		6015CA161DC0ED4C00A7CFB8 /* Release */ = {
+		60F9E1C81DC0EEBA0083D240 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = ET8N4EUMNC;
 				INFOPLIST_FILE = babyMonitor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FIT5140.babyMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6015C9FA1DC0ED4B00A7CFB8 /* Build configuration list for PBXProject "babyMonitor" */ = {
+		60F9E1AC1DC0EEBA0083D240 /* Build configuration list for PBXProject "babyMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6015CA121DC0ED4C00A7CFB8 /* Debug */,
-				6015CA131DC0ED4C00A7CFB8 /* Release */,
+				60F9E1C41DC0EEBA0083D240 /* Debug */,
+				60F9E1C51DC0EEBA0083D240 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6015CA141DC0ED4C00A7CFB8 /* Build configuration list for PBXNativeTarget "babyMonitor" */ = {
+		60F9E1C61DC0EEBA0083D240 /* Build configuration list for PBXNativeTarget "babyMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6015CA151DC0ED4C00A7CFB8 /* Debug */,
-				6015CA161DC0ED4C00A7CFB8 /* Release */,
+				60F9E1C71DC0EEBA0083D240 /* Debug */,
+				60F9E1C81DC0EEBA0083D240 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		6015CA091DC0ED4C00A7CFB8 /* babyMonitor.xcdatamodeld */ = {
+		60F9E1BB1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				6015CA0A1DC0ED4C00A7CFB8 /* babyMonitor.xcdatamodel */,
+				60F9E1BC1DC0EEBA0083D240 /* babyMonitor.xcdatamodel */,
 			);
-			currentVersion = 6015CA0A1DC0ED4C00A7CFB8 /* babyMonitor.xcdatamodel */;
+			currentVersion = 60F9E1BC1DC0EEBA0083D240 /* babyMonitor.xcdatamodel */;
 			path = babyMonitor.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */
 	};
-	rootObject = 6015C9F71DC0ED4B00A7CFB8 /* Project object */;
+	rootObject = 60F9E1A91DC0EEBA0083D240 /* Project object */;
 }
