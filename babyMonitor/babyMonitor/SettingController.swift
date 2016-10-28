@@ -10,10 +10,25 @@ import UIKit
 
 class SettingController: UITableViewController {
 
+    var monitorCell : SettingCell!
+    var cryCell : SettingCell!
+    var diaperCell : SettingCell!
+    var quiltCell : SettingCell!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Remove blank rows
         tableView.tableFooterView = UIView()
+        
+        initCells()
+        monitorCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffSubControls), forControlEvents: UIControlEvents.ValueChanged)
+    }
+    
+    func initCells(){
+        monitorCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! SettingCell
+        cryCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as! SettingCell
+        diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! SettingCell
+        quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,6 +51,19 @@ class SettingController: UITableViewController {
         }else{
             return 0
         }
+    }
+    
+    func turnOffSubControls(toggle: UISwitch){
+        if toggle.on {
+            cryCell.switchOnOff.enabled = true
+            diaperCell.switchOnOff.enabled = true
+            quiltCell.switchOnOff.enabled = true
+        }else{
+            cryCell.switchOnOff.enabled = false
+            diaperCell.switchOnOff.enabled = false
+            quiltCell.switchOnOff.enabled = false
+        }
+        
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

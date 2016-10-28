@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CGX-x3-gWU" id="dfL-bc-1fd">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BoN-aC-mSa">
@@ -81,16 +81,16 @@
         <scene sceneID="VP6-n8-Nqx">
             <objects>
                 <tableViewController id="Xqf-ys-2hb" customClass="SettingController" customModule="babyMonitor" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="epo-8F-7bp">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="epo-8F-7bp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingCell" id="yhn-Ki-KYL" customClass="SettingCell" customModule="babyMonitor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="119.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yhn-Ki-KYL" id="vct-Mc-79K">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4uQ-AE-cfe"/>
@@ -175,7 +175,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="112-MQ-3yy" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="Vertical Settings Mixer Filled-30" id="sc7-Nl-sdI"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gbl-p3-jC1">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gbl-p3-jC1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -194,7 +194,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1ih-Xp-WV6" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Monitor" image="Screenshot-30" id="cVE-bw-JC6"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kl9-pI-DCi">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="kl9-pI-DCi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -219,13 +219,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LaF-Id-1LS">
-                                <frame key="frameInset" minX="29" minY="122" width="316" height="404"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LaF-Id-1LS">
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="LaF-Id-1LS" firstAttribute="top" secondItem="fLT-Gu-VxC" secondAttribute="bottom" id="EnT-Nq-7UR"/>
+                            <constraint firstItem="LaF-Id-1LS" firstAttribute="leading" secondItem="SPV-iL-5Um" secondAttribute="leading" id="erQ-rb-4Rk"/>
+                            <constraint firstAttribute="trailing" secondItem="LaF-Id-1LS" secondAttribute="trailing" id="sW4-eW-Zoa"/>
+                            <constraint firstItem="LaF-Id-1LS" firstAttribute="bottom" secondItem="pCr-C5-R5S" secondAttribute="top" id="w9f-VU-S7B"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="babyWebView" destination="LaF-Id-1LS" id="Vs0-GR-7r7"/>
@@ -241,7 +245,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oUD-01-GZR" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Activities" image="Activity Feed-30" id="ewG-TW-AV2"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Nac-rS-8CM">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Nac-rS-8CM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
