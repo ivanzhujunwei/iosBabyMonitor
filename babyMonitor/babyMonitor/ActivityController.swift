@@ -30,7 +30,6 @@ class ActivityController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
-
         // test: new BabyActivity object
         let activity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
         activity.type = BabyActityType.CRY.rawValue

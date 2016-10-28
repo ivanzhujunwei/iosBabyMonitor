@@ -7,15 +7,27 @@
 //
 
 import UIKit
+import CoreData
 
 class SettingController: UITableViewController {
+    
+    var managedObjectContext : NSManagedObjectContext!
+    var settings:Settings!
 
     var monitorCell : SettingCell!
     var cryCell : SettingCell!
     var diaperCell : SettingCell!
     var quiltCell : SettingCell!
     
+    required init?(coder aDecoder:NSCoder){
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        // Reference to the managedObjectContext in AppDelegate
+        self.managedObjectContext = appDelegate.managedObjectContext
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
+        fetchData()
         super.viewDidLoad()
         // Remove blank rows
         tableView.tableFooterView = UIView()
@@ -30,6 +42,25 @@ class SettingController: UITableViewController {
         diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! SettingCell
         quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
     }
+    
+    // Fetch current dataset
+    func fetchData(){
+        // Declare fetch entityName
+        let fetch = NSFetchRequest(entityName: "Settings")
+        do{
+            // Fetch request
+            let fetchResults = try managedObjectContext!.executeFetchRequest(fetch) as! [Settings]
+            if fetchResults.count == 0 {
+                settings = NSEntityDescription.insertNewObjectForEntityForName("Settings", inManagedObjectContext: managedObjectContext!) as! Settings
+                settings.monitor = true
+            }else{
+                settings = fetchResults[0]
+            }
+        }catch{
+            fatalError("Failed to fetch Settings information: \(error)")
+        }
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -55,13 +86,20 @@ class SettingController: UITableViewController {
     
     func turnOffSubControls(toggle: UISwitch){
         if toggle.on {
+            settings?.monitor = true
             cryCell.switchOnOff.enabled = true
             diaperCell.switchOnOff.enabled = true
             quiltCell.switchOnOff.enabled = true
         }else{
+            settings?.monitor = false
             cryCell.switchOnOff.enabled = false
             diaperCell.switchOnOff.enabled = false
             quiltCell.switchOnOff.enabled = false
+        }
+        do{
+            try managedObjectContext.save()
+        }catch{
+            fatalError("Failure to save context: \(error)")
         }
         
     }
@@ -72,6 +110,7 @@ class SettingController: UITableViewController {
         if indexPath.section == 0 {
             // Configure the cell
             settingCell.textLabel?.text = "Monitor"
+            settingCell.switchOnOff.on = Bool(settings.monitor!)
         }
         else {
             switch indexPath.row {
