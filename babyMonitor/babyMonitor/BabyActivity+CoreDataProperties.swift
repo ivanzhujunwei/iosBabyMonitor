@@ -18,6 +18,6 @@ extension BabyActivity {
     @NSManaged var date: NSDate?
     @NSManaged var icon: String?
     @NSManaged var type: String?
-    @NSManaged var monitor: Monitor?
+
 
 }

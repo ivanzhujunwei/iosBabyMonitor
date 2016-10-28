@@ -13,14 +13,6 @@ import UIKit
 class BabyActivity: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
-//    func initByType(tyep:String)->BabyActivity{
-//        switch(type){
-//        case (BabyActityType.COLD.rawValue)!:
-//            return self;
-//        default:
-//            return self;
-//        }
-//    }
     
     func initByType()->BabyActivity{
         let babyName = "Kevin "

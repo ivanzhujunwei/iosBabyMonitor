@@ -5,15 +5,8 @@
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="icon" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="monitor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Monitor" inverseName="babyActivities" inverseEntity="Monitor" syncable="YES"/>
-    </entity>
-    <entity name="Monitor" representedClassName=".Monitor" syncable="YES">
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="babyActivities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BabyActivity" inverseName="monitor" inverseEntity="BabyActivity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BabyActivity" positionX="-63" positionY="612" width="128" height="120"/>
-        <element name="Monitor" positionX="270" positionY="639" width="128" height="88"/>
+        <element name="BabyActivity" positionX="-63" positionY="612" width="128" height="30"/>
     </elements>
 </model>

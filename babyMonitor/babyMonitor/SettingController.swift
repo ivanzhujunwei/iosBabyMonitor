@@ -59,6 +59,8 @@ class SettingController: UITableViewController {
                 break
             }
         }
+        // set none select style
+        settingCell.selectionStyle = UITableViewCellSelectionStyle.None
         settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
         return settingCell
     }

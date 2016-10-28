@@ -17,8 +17,6 @@ class ActivityController: UITableViewController {
     
     var managedObjectContext : NSManagedObjectContext?
     
-    // monitor stroed list
-//    var monitorList : [Monitor]!
     // the activity list that is being displayed
     var babyActivities: [BabyActivity]!
     
@@ -99,6 +97,7 @@ class ActivityController: UITableViewController {
         activityCell.activityName.text = babyActivity.activityName
         activityCell.icon.image =  babyActivity.getIconForActivity()
         activityCell.time.text = getTimeText(babyActivity.date!)
+        activityCell.selectionStyle = UITableViewCellSelectionStyle.None
         return activityCell
     }
     
@@ -113,10 +112,6 @@ class ActivityController: UITableViewController {
     
     // set the height of cell.
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        if indexPath.section == 0{
-//            return 180
-//        }
-//        return UITableViewAutomaticDimension
         return 55
     }
 
