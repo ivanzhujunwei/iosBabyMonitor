@@ -34,6 +34,9 @@ class SettingController: UITableViewController {
         
         initCells()
         monitorCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffSubControls), forControlEvents: UIControlEvents.ValueChanged)
+        cryCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffCryNotification), forControlEvents: UIControlEvents.ValueChanged)
+        diaperCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffDiaperNotification), forControlEvents: UIControlEvents.ValueChanged)
+        quiltCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffQuiltNotification), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     func initCells(){
@@ -41,6 +44,15 @@ class SettingController: UITableViewController {
         cryCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as! SettingCell
         diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! SettingCell
         quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
+        if monitorCell.switchOnOff.on {
+            cryCell.switchOnOff.enabled = true
+            diaperCell.switchOnOff.enabled = true
+            quiltCell.switchOnOff.enabled = true
+        }else{
+            cryCell.switchOnOff.enabled = false
+            diaperCell.switchOnOff.enabled = false
+            quiltCell.switchOnOff.enabled = false
+        }
     }
     
     // Fetch current dataset
@@ -52,7 +64,6 @@ class SettingController: UITableViewController {
             let fetchResults = try managedObjectContext!.executeFetchRequest(fetch) as! [Settings]
             if fetchResults.count == 0 {
                 settings = NSEntityDescription.insertNewObjectForEntityForName("Settings", inManagedObjectContext: managedObjectContext!) as! Settings
-                settings.monitor = true
             }else{
                 settings = fetchResults[0]
             }
@@ -96,13 +107,37 @@ class SettingController: UITableViewController {
             diaperCell.switchOnOff.enabled = false
             quiltCell.switchOnOff.enabled = false
         }
-        do{
-            try managedObjectContext.save()
-        }catch{
-            fatalError("Failure to save context: \(error)")
-        }
-        
+//        do{
+//            try managedObjectContext.save()
+//        }catch{
+//            fatalError("Failure to save context: \(error)")
+//        }
     }
+    
+    func turnOffCryNotification(toggle: UISwitch){
+        if toggle.on {
+            settings.babyCryOn = true
+        }else{
+            settings.babyCryOn = false
+        }
+    }
+    
+    func turnOffDiaperNotification(toggle: UISwitch){
+        if toggle.on {
+            settings.diaperWetOn = true
+        }else{
+            settings.diaperWetOn = false
+        }
+    }
+    
+    func turnOffQuiltNotification(toggle: UISwitch){
+        if toggle.on {
+            settings.tempAnomaly = true
+        }else{
+            settings.tempAnomaly = false
+        }
+    }
+    
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -116,13 +151,15 @@ class SettingController: UITableViewController {
             switch indexPath.row {
             case 0:
                 settingCell.textLabel?.text = "Baby cry"
-                settingCell.switchOnOff.on = false
+                settingCell.switchOnOff.on = Bool(settings.babyCryOn!)
                 break
             case 1:
                 settingCell.textLabel?.text = "Diaper wet"
+                settingCell.switchOnOff.on = Bool(settings.diaperWetOn!)
                 break
             default:
                 settingCell.textLabel?.text = "Temperature anomaly"
+                settingCell.switchOnOff.on = Bool(settings.tempAnomaly!)
                 break
             }
         }

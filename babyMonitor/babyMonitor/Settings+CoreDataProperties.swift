@@ -14,10 +14,10 @@ import CoreData
 
 extension Settings {
 
-    @NSManaged var monitor: NSNumber?
     @NSManaged var babyCryOn: NSNumber?
-    @NSManaged var diaperWetOn: NSNumber?
-    @NSManaged var tempAnomaly: NSNumber?
     @NSManaged var babyCryVolume: NSNumber?
+    @NSManaged var diaperWetOn: NSNumber?
+    @NSManaged var monitor: NSNumber?
+    @NSManaged var tempAnomaly: NSNumber?
 
 }

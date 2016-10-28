@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="16A323" minimumToolsVersion="Automatic">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="16A323" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="BabyActivity" representedClassName=".BabyActivity" syncable="YES">
         <attribute name="activityName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="icon" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Settings" representedClassName=".Settings" syncable="YES">
-        <attribute name="babyCryOn" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="babyCryVolume" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="diaperWetOn" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="monitor" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="tempAnomaly" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="babyCryOn" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="babyCryVolume" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="diaperWetOn" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="monitor" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="tempAnomaly" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <elements>
         <element name="BabyActivity" positionX="-63" positionY="612" width="128" height="30"/>
