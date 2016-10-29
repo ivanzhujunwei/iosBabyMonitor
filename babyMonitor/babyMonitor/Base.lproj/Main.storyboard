@@ -20,31 +20,37 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CGX-x3-gWU" id="dfL-bc-1fd">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BoN-aC-mSa">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BoN-aC-mSa">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="70" id="YFN-lK-nmz"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tV5-gj-EHB">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="das-Cr-KNl">
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tV5-gj-EHB">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="40" id="N53-Wx-Ekl"/>
+                                                <constraint firstAttribute="width" constant="45" id="0Yw-2G-FoX"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Activity name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="das-Cr-KNl">
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="BoN-aC-mSa" firstAttribute="centerY" secondItem="dfL-bc-1fd" secondAttribute="centerY" id="6Oo-eP-Cue"/>
-                                        <constraint firstItem="tV5-gj-EHB" firstAttribute="top" secondItem="dfL-bc-1fd" secondAttribute="topMargin" constant="-3" id="BLC-PN-tsk"/>
-                                        <constraint firstItem="das-Cr-KNl" firstAttribute="leading" secondItem="tV5-gj-EHB" secondAttribute="trailing" constant="17" id="DMC-QJ-u9n"/>
-                                        <constraint firstItem="tV5-gj-EHB" firstAttribute="leading" secondItem="BoN-aC-mSa" secondAttribute="trailing" constant="20" id="l4V-9p-g1A"/>
-                                        <constraint firstItem="BoN-aC-mSa" firstAttribute="centerY" secondItem="tV5-gj-EHB" secondAttribute="centerY" id="qTC-eB-oZD"/>
-                                        <constraint firstItem="BoN-aC-mSa" firstAttribute="leading" secondItem="dfL-bc-1fd" secondAttribute="leadingMargin" constant="8" id="qVN-qw-YM5"/>
-                                        <constraint firstItem="BoN-aC-mSa" firstAttribute="baseline" secondItem="das-Cr-KNl" secondAttribute="baseline" id="x5F-Kz-hXx"/>
+                                        <constraint firstItem="das-Cr-KNl" firstAttribute="leading" secondItem="tV5-gj-EHB" secondAttribute="trailing" constant="24" id="Euh-Hg-4TP"/>
+                                        <constraint firstAttribute="trailing" secondItem="das-Cr-KNl" secondAttribute="trailing" id="FzW-AH-HAD"/>
+                                        <constraint firstItem="das-Cr-KNl" firstAttribute="top" secondItem="dfL-bc-1fd" secondAttribute="topMargin" constant="-4" id="OiY-fO-xcz"/>
+                                        <constraint firstItem="BoN-aC-mSa" firstAttribute="top" secondItem="tV5-gj-EHB" secondAttribute="top" id="P0c-L9-fTf"/>
+                                        <constraint firstItem="tV5-gj-EHB" firstAttribute="leading" secondItem="BoN-aC-mSa" secondAttribute="trailing" constant="8" symbolic="YES" id="SSi-VQ-Hhc"/>
+                                        <constraint firstItem="BoN-aC-mSa" firstAttribute="bottom" secondItem="dfL-bc-1fd" secondAttribute="bottomMargin" id="cMc-bv-7ZH"/>
+                                        <constraint firstItem="BoN-aC-mSa" firstAttribute="top" secondItem="dfL-bc-1fd" secondAttribute="top" id="dMB-ct-Ybp"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="tV5-gj-EHB" secondAttribute="bottom" constant="-4" id="eMB-uP-Pzl"/>
+                                        <constraint firstItem="BoN-aC-mSa" firstAttribute="leading" secondItem="dfL-bc-1fd" secondAttribute="leadingMargin" constant="-6" id="s3s-mw-rGX"/>
+                                        <constraint firstItem="das-Cr-KNl" firstAttribute="centerY" secondItem="dfL-bc-1fd" secondAttribute="centerY" id="zaS-ar-4lv"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -62,7 +68,7 @@
                     <navigationItem key="navigationItem" id="nJX-ny-LFc">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="fkX-y5-l5z">
-                            <rect key="frame" x="69" y="6.5" width="237" height="31"/>
+                            <rect key="frame" x="69" y="7" width="237" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Current activities"/>
