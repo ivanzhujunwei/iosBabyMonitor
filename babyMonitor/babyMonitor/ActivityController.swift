@@ -30,7 +30,8 @@ class ActivityController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
-        // test: new BabyActivity object
+        // Mockup: new BabyActivity object
+        // TODO: FROM SERVER
         let activity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
         activity.type = BabyActityType.CRY.rawValue
         activity.initByType()
@@ -71,7 +72,7 @@ class ActivityController: UITableViewController {
         do{
             // Fetch request
             let fetchResults = try managedObjectContext!.executeFetchRequest(fetch) as! [BabyActivity]
-            // Initialise the categoryList using fetch results
+            // Initialise the babyActivities using fetch results
             babyActivities = fetchResults
         }catch{
             fatalError("Failed to fetch category information: \(error)")

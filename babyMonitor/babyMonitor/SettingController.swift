@@ -39,11 +39,13 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         quiltCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffQuiltNotification), forControlEvents: UIControlEvents.ValueChanged)
     }
     
+    // Initialise tableView cells
     func initCells(){
         monitorCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! SettingCell
         cryCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as! SettingCell
         diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! SettingCell
         quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
+        // Initialise status of switches
         if monitorCell.switchOnOff.on {
             cryCell.switchOnOff.enabled = true
             diaperCell.switchOnOff.enabled = true
@@ -117,6 +119,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
 //        }
     }
     
+    // Save status of cry notification to core data entity
     func turnOffCryNotification(toggle: UISwitch){
         if toggle.on {
             settings.babyCryOn = true
@@ -125,6 +128,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         }
     }
     
+    // Save status of diaper wet to core data entity
     func turnOffDiaperNotification(toggle: UISwitch){
         if toggle.on {
             settings.diaperWetOn = true
@@ -133,6 +137,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         }
     }
     
+    // Save status of kick off quilt to core data entity
     func turnOffQuiltNotification(toggle: UISwitch){
         if toggle.on {
             settings.tempAnomaly = true
@@ -193,7 +198,9 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // If the user click to select a photo
         if indexPath.section == 2 && indexPath.row == 1{
+            // Reference: www.youtube.com/watch?v=leyk3QOYJF0
             let photoPicker = UIImagePickerController()
             photoPicker.delegate = self
             photoPicker.sourceType = .PhotoLibrary
