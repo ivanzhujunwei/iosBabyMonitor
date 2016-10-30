@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class SettingController: UITableViewController {
+class SettingController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var managedObjectContext : NSManagedObjectContext!
     var settings:Settings!
@@ -82,16 +82,19 @@ class SettingController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Two section in this tableView
-        return 2
+        return 3
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // first section: monitor control
         if section == 0{
             return 1
         }else if section == 1 {
+            // second section: sub controls: baby cry, diaper wet, temperature
             return 3
         }else{
-            return 0
+            // third section: choose picture from ablum
+            return 2
         }
     }
     
@@ -140,14 +143,17 @@ class SettingController: UITableViewController {
     
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
         if indexPath.section == 0 {
+            let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
             // Configure the cell
             settingCell.textLabel?.text = "Monitor"
             settingCell.switchOnOff.on = Bool(settings.monitor!)
-        }
-        else {
+            // set none select style
+            settingCell.selectionStyle = UITableViewCellSelectionStyle.None
+            settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
+            return settingCell
+        }else if indexPath.section == 1{
+            let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
             switch indexPath.row {
             case 0:
                 settingCell.textLabel?.text = "Baby cry"
@@ -162,11 +168,43 @@ class SettingController: UITableViewController {
                 settingCell.switchOnOff.on = Bool(settings.tempAnomaly!)
                 break
             }
+            // set none select style
+            settingCell.selectionStyle = UITableViewCellSelectionStyle.None
+            settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
+            return settingCell
+        }else{
+            switch indexPath.row{
+            case 0:
+                let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
+                settingCell.textLabel?.text = "Use default home page"
+                settingCell.switchOnOff.on = Bool(settings.useDefaultHomePage!)
+                // set none select style
+                settingCell.selectionStyle = UITableViewCellSelectionStyle.None
+                settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
+                return settingCell
+            default:
+                
+                let choosePhotoCell = tableView.dequeueReusableCellWithIdentifier("choosePhotoCell", forIndexPath: indexPath) as UITableViewCell
+                choosePhotoCell.textLabel?.text = "Choose from Photos"
+                return choosePhotoCell
+            }
         }
-        // set none select style
-        settingCell.selectionStyle = UITableViewCellSelectionStyle.None
-        settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
-        return settingCell
+        
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 2 && indexPath.row == 1{
+            let photoPicker = UIImagePickerController()
+            photoPicker.delegate = self
+            photoPicker.sourceType = .PhotoLibrary
+            self.presentViewController(photoPicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        let homeController = self.tabBarController?.viewControllers![0].childViewControllers[0] as! HomeController
+        homeController.babyPhone.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
     override func viewWillAppear(animated: Bool) {

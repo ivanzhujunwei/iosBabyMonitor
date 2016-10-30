@@ -13,14 +13,27 @@ class HomeController: UIViewController {
 
     @IBOutlet var babyPhone: UIImageView!
     
+    // lastest updated temperature
+    @IBOutlet var latestUpdateTemp: UILabel!
+    
     var managedObjectContext : NSManagedObjectContext?
     
     var settings:Settings?
     
+    let themeColor = UIColor(red: 255/255, green: 102/255, blue: 102/255, alpha: 1.0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // set home page photo
+        babyPhone.image = UIImage(named: "baby_smile")
+        // temperature text
+        // TODO: FROM SENSOR
+        latestUpdateTemp.text = "24°C"
+        latestUpdateTemp.textColor = themeColor
         
-        // Do any additional setup after loading the view.
+        // set navigation bar / status bar color
+        self.navigationController!.navigationBar.barTintColor = themeColor
+        self.navigationController!.navigationBar.translucent = true
     }
     
     required init?(coder aDecoder:NSCoder){
@@ -35,13 +48,14 @@ class HomeController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // Fetch data from core data
     func fetchData(){
         // Declare fetch entityName
         let fetch = NSFetchRequest(entityName: "Settings")
         do{
             // Fetch request
             let fetchResults = try managedObjectContext!.executeFetchRequest(fetch) as! [Settings]
-            // Initialise the categoryList using fetch results
+            // Initialise the settings using fetch results
             settings = fetchResults[0]
         }catch{
             fatalError("Failed to fetch category information: \(error)")
