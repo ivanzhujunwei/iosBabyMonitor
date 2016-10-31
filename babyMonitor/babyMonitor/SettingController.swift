@@ -18,12 +18,22 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     var cryCell : SettingCell!
     var diaperCell : SettingCell!
     var quiltCell : SettingCell!
+    var monitorTimeCell : SettingTimePeriodCell!
+    
+    // Time period settings
+    // 10 seconds
+    let realTime = 10
+    // 5 miniutes
+    let fiveMin = 300
+    // 15 miniutes
+    let fifteenMin = 900
     
     required init?(coder aDecoder:NSCoder){
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         // Reference to the managedObjectContext in AppDelegate
         self.managedObjectContext = appDelegate.managedObjectContext
         super.init(coder: aDecoder)
+        
     }
     
     override func viewDidLoad() {
@@ -37,23 +47,29 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         cryCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffCryNotification), forControlEvents: UIControlEvents.ValueChanged)
         diaperCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffDiaperNotification), forControlEvents: UIControlEvents.ValueChanged)
         quiltCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffQuiltNotification), forControlEvents: UIControlEvents.ValueChanged)
+        monitorTimeCell.timePeriod.addTarget(self, action: #selector(SettingController.changeTimePeriod), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     // Initialise tableView cells
     func initCells(){
         monitorCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! SettingCell
+        monitorTimeCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! SettingTimePeriodCell
         cryCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as! SettingCell
         diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! SettingCell
         quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
+        monitorTimeCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! SettingTimePeriodCell
+        
         // Initialise status of switches
         if monitorCell.switchOnOff.on {
             cryCell.switchOnOff.enabled = true
             diaperCell.switchOnOff.enabled = true
             quiltCell.switchOnOff.enabled = true
+            monitorTimeCell.timePeriod.enabled = true
         }else{
             cryCell.switchOnOff.enabled = false
             diaperCell.switchOnOff.enabled = false
             quiltCell.switchOnOff.enabled = false
+            monitorTimeCell.timePeriod.enabled = false
         }
     }
     
@@ -90,7 +106,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // first section: monitor control
         if section == 0{
-            return 1
+            return 2
         }else if section == 1 {
             // second section: sub controls: baby cry, diaper wet, temperature
             return 3
@@ -106,17 +122,19 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
             cryCell.switchOnOff.enabled = true
             diaperCell.switchOnOff.enabled = true
             quiltCell.switchOnOff.enabled = true
+            monitorTimeCell.timePeriod.enabled = true
         }else{
             settings?.monitor = false
             cryCell.switchOnOff.enabled = false
             diaperCell.switchOnOff.enabled = false
             quiltCell.switchOnOff.enabled = false
+            monitorTimeCell.timePeriod.enabled = false
         }
-//        do{
-//            try managedObjectContext.save()
-//        }catch{
-//            fatalError("Failure to save context: \(error)")
-//        }
+        do{
+            try managedObjectContext.save()
+        }catch{
+            fatalError("Failure to save context: \(error)")
+        }
     }
     
     // Save status of cry notification to core data entity
@@ -146,17 +164,43 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         }
     }
     
+    // Save time period to core data entity
+    func changeTimePeriod(){
+        switch  monitorTimeCell.timePeriod.selectedSegmentIndex {
+        case 0:
+            settings.timePeriod = realTime
+            break
+        case 1:
+            settings.timePeriod = fiveMin
+            break
+        default:
+            settings.timePeriod = fifteenMin
+            break
+        }
+        NSNotificationCenter.defaultCenter().postNotificationName("changeTimePeriodId", object: settings)
+    }
+    
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
-            // Configure the cell
-            settingCell.textLabel?.text = "Monitor"
-            settingCell.switchOnOff.on = Bool(settings.monitor!)
-            // set none select style
-            settingCell.selectionStyle = UITableViewCellSelectionStyle.None
-            settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
-            return settingCell
+            switch indexPath.row{
+            case 0:
+                let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
+                // Configure the cell
+                settingCell.textLabel?.text = "Monitor"
+                settingCell.switchOnOff.on = Bool(settings.monitor!)
+                // set none select style
+                settingCell.selectionStyle = UITableViewCellSelectionStyle.None
+                settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
+                return settingCell
+            default:
+                let monitorTimeCell = tableView.dequeueReusableCellWithIdentifier("monitorTimeCell", forIndexPath: indexPath) as! SettingTimePeriodCell
+                monitorTimeCell.textLabel?.text = "Time period"
+                monitorTimeCell.selectionStyle = UITableViewCellSelectionStyle.None
+                monitorTimeCell.contentView.bringSubviewToFront(monitorTimeCell.timePeriod)
+                monitorTimeCell.timePeriod.selectedSegmentIndex = getIndexForTimePeriod()
+                return monitorTimeCell
+            }
         }else if indexPath.section == 1{
             let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
             switch indexPath.row {
@@ -218,6 +262,18 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         super.viewWillAppear(animated)
         // reload data
         self.tableView.reloadData()
+    }
+    
+    func getIndexForTimePeriod() -> Int{
+        let timeSetting = Int(settings.timePeriod!)
+        switch timeSetting{
+        // Real time
+        case realTime:return 0
+        // 5 miniutes
+        case fiveMin: return 1
+        // 15 miniutes
+        default: return 2
+        }
     }
     /*
     // Override to support conditional editing of the table view.

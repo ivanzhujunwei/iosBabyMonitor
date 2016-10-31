@@ -13,10 +13,11 @@
         <attribute name="homePagePhoto" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="monitor" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="tempAnomaly" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="timePeriod" optional="YES" attributeType="Integer 16" defaultValueString="10" syncable="YES"/>
         <attribute name="useDefaultHomePage" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
     </entity>
     <elements>
         <element name="BabyActivity" positionX="-63" positionY="612" width="128" height="30"/>
-        <element name="Settings" positionX="-63" positionY="603" width="128" height="150"/>
+        <element name="Settings" positionX="-63" positionY="603" width="128" height="165"/>
     </elements>
 </model>

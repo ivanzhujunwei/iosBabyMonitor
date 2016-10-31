@@ -27,6 +27,9 @@ class BabyActivity: NSManagedObject {
         case BabyActityType.COLD.rawValue:
             self.activityName = babyName + "kicked off quilt"
             return self
+        case BabyActityType.OUTOFSIGHT.rawValue:
+            self.activityName = babyName + "out of sight"
+            return self
         case BabyActityType.START.rawValue:
             let dateTxt = getDateText(self.date!)
             self.activityName = "Monitor started on " + dateTxt
@@ -48,7 +51,7 @@ class BabyActivity: NSManagedObject {
         case BabyActityType.START.rawValue:
             return UIImage(named: "Start")!
         default:
-            return UIImage(named:"End")!
+            return UIImage(named:"Start")!
         }
     }
     

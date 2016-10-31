@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CoreImage
 
 class HomeController: UIViewController {
 
@@ -34,7 +35,11 @@ class HomeController: UIViewController {
         // set navigation bar / status bar color
         self.navigationController!.navigationBar.barTintColor = themeColor
         self.navigationController!.navigationBar.translucent = true
+//        while true{
+//        }
     }
+    
+    
     
     required init?(coder aDecoder:NSCoder){
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -42,8 +47,8 @@ class HomeController: UIViewController {
         self.managedObjectContext = appDelegate.managedObjectContext
         super.init(coder: aDecoder)
     }
-
-    override func didReceiveMemoryWarning() {
+    
+     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
