@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6039CFE41DC389A800395D18 /* Settings+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6039CFE21DC389A800395D18 /* Settings+CoreDataProperties.swift */; };
 		6039CFE51DC389A800395D18 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6039CFE31DC389A800395D18 /* Settings.swift */; };
+		604EF09A1DC7538600E00620 /* SettingVolumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604EF0991DC7538600E00620 /* SettingVolumeCell.swift */; };
 		6054169A1DC1AE2900AB05FC /* BabyActivity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605416961DC1AE2900AB05FC /* BabyActivity+CoreDataProperties.swift */; };
 		6054169B1DC1AE2900AB05FC /* BabyActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605416971DC1AE2900AB05FC /* BabyActivity.swift */; };
 		60660BB31DC1AF13008EDA35 /* ActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60660BB21DC1AF13008EDA35 /* ActivityController.swift */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		6039CFE21DC389A800395D18 /* Settings+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Settings+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6039CFE31DC389A800395D18 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		604EF0991DC7538600E00620 /* SettingVolumeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingVolumeCell.swift; sourceTree = "<group>"; };
 		605416961DC1AE2900AB05FC /* BabyActivity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BabyActivity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		605416971DC1AE2900AB05FC /* BabyActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabyActivity.swift; sourceTree = "<group>"; };
 		60660BB21DC1AF13008EDA35 /* ActivityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityController.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 				609A1CAF1DC184E700B3FEF7 /* ActivityLogCell.swift */,
 				609A1CB11DC1863600B3FEF7 /* SettingCell.swift */,
 				60EF91DA1DC708FA001B2851 /* SettingTimePeriodCell.swift */,
+				604EF0991DC7538600E00620 /* SettingVolumeCell.swift */,
 			);
 			name = tableViewCell;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				6039CFE41DC389A800395D18 /* Settings+CoreDataProperties.swift in Sources */,
 				60F9E1BD1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld in Sources */,
 				609A1CB21DC1863600B3FEF7 /* SettingCell.swift in Sources */,
+				604EF09A1DC7538600E00620 /* SettingVolumeCell.swift in Sources */,
 				609A1CB01DC184E700B3FEF7 /* ActivityLogCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

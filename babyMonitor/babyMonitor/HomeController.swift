@@ -17,11 +17,12 @@ class HomeController: UIViewController {
     // lastest updated temperature
     @IBOutlet var latestUpdateTemp: UILabel!
     
+    @IBOutlet var lastActivityLabel: UILabel!
     var managedObjectContext : NSManagedObjectContext?
     
     var settings:Settings?
     
-    let themeColor = UIColor(red: 255/255, green: 102/255, blue: 102/255, alpha: 1.0)
+    let themeColor = UIColor(red: 255/255, green: 80/255, blue: 80/255, alpha: 1.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,9 @@ class HomeController: UIViewController {
         // TODO: FROM SENSOR
         latestUpdateTemp.text = "24°C"
         latestUpdateTemp.textColor = themeColor
+        
+        lastActivityLabel.text = "2 miniutes ago, Kevin kicked off quilt"
+        lastActivityLabel.textColor = themeColor
         
         // set navigation bar / status bar color
         self.navigationController!.navigationBar.barTintColor = themeColor

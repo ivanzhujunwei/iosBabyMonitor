@@ -21,7 +21,7 @@ class ActivityController: UITableViewController {
     var babyActivities: [BabyActivity]!
     var settings: Settings!
     
-    var timePeriod : Double!
+//    var timePeriod : Double!
     
     var timer:NSTimer!
     
@@ -30,48 +30,49 @@ class ActivityController: UITableViewController {
         // Reference to the managedObjectContext in AppDelegate
         self.managedObjectContext = appDelegate.managedObjectContext
         super.init(coder: aDecoder)
-        
         fetchData()
-        readSensors()
+        scheduleJobReadSensor()
         // Add notificatioin for updating monitoring regions
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(resetTimePeriod), name: "changeTimePeriodId", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(resetSettings), name: "resetSettingsId", object: nil)
     }
     
-    func resetTimePeriod(notification: NSNotification){
-        let setting = notification.object as! Settings
-        timePeriod = Double(setting.timePeriod!)
+    // Reset all the settings
+    func resetSettings(notification: NSNotification){
+        settings = notification.object as! Settings
         // Reset the timer
-        timer.invalidate()
-        timer = nil
-        readSensors()
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
+        }
+        scheduleJobReadSensor()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Mockup: new BabyActivity object
         // TODO: FROM SERVER
-//        let activity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-//        activity.type = BabyActityType.CRY.rawValue
-//        activity.initByType()
-//        
-//        let activity2 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-//        activity2.type = BabyActityType.WET.rawValue
-//        activity2.initByType()
-//        
-//        let activity3 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-//        activity3.type = BabyActityType.COLD.rawValue
-//        activity3.initByType()
-//
-//        
-//        let activity0 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-//        activity0.type = BabyActityType.START.rawValue
-//        activity0.initByType()
+        let activity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
+        activity.type = BabyActityType.CRY.rawValue
+        activity.initByType()
+        
+        let activity2 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
+        activity2.type = BabyActityType.WET.rawValue
+        activity2.initByType()
+        
+        let activity3 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
+        activity3.type = BabyActityType.COLD.rawValue
+        activity3.initByType()
+
+        
+        let activity0 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
+        activity0.type = BabyActityType.START.rawValue
+        activity0.initByType()
         
         
-//        babyActivities.append(activity0)
-//        babyActivities.append(activity)
-//        babyActivities.append(activity2)
-//        babyActivities.append(activity3)
+        babyActivities.append(activity0)
+        babyActivities.append(activity)
+        babyActivities.append(activity2)
+        babyActivities.append(activity3)
     }
     
     
@@ -101,7 +102,6 @@ class ActivityController: UITableViewController {
             let fetchSettingResults = try managedObjectContext!.executeFetchRequest(fetchSettings) as! [Settings]
             // Initialise the babyActivities using fetch results
             settings = fetchSettingResults[0]
-            timePeriod = Double(settings.timePeriod!)
             
         }catch{
             fatalError("Failed to fetch category information: \(error)")
@@ -144,12 +144,29 @@ class ActivityController: UITableViewController {
         return 55
     }
     
-    // MARK: Read sensors
-    func readSensors(){
-        timer = NSTimer.scheduledTimerWithTimeInterval(timePeriod, target: self, selector: #selector(ActivityController.readSoundData), userInfo: nil, repeats: true)
-        
-        
+    // MARK: Timely job to read sensors
+    func scheduleJobReadSensor(){
+        if Bool(settings.monitor!) {
+            timer = NSTimer.scheduledTimerWithTimeInterval(Double(settings.timePeriod!), target: self, selector: #selector(ActivityController.readSensors), userInfo: nil, repeats: true)
+        }
     }
+
+    // Read data from different sensors
+    func readSensors(){
+        // Read from sound sensor
+        if settings.babyCryOn == 1 {
+            readSoundData()
+        }
+        // Read from mositure sensor
+        if settings.diaperWetOn == 1 {
+            // TODO: Read from mositure sensor
+        }
+        // Read from the temperature sensor
+        if settings.tempAnomaly == 1 {
+            // TODO: Read from the temperature sensor
+        }
+    }
+
 
     func readSoundData(){
         let url = NSURL(string: "http://172.20.10.5:6900/")!

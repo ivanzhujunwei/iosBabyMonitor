@@ -19,6 +19,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     var diaperCell : SettingCell!
     var quiltCell : SettingCell!
     var monitorTimeCell : SettingTimePeriodCell!
+    var volumeCell : SettingVolumeCell!
     
     // Time period settings
     // 10 seconds
@@ -48,16 +49,18 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         diaperCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffDiaperNotification), forControlEvents: UIControlEvents.ValueChanged)
         quiltCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffQuiltNotification), forControlEvents: UIControlEvents.ValueChanged)
         monitorTimeCell.timePeriod.addTarget(self, action: #selector(SettingController.changeTimePeriod), forControlEvents: UIControlEvents.ValueChanged)
+        volumeCell.volumeSlider.addTarget(self, action: #selector(SettingController.changeVolume), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     // Initialise tableView cells
     func initCells(){
         monitorCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! SettingCell
         monitorTimeCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! SettingTimePeriodCell
+
         cryCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as! SettingCell
-        diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! SettingCell
-        quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
-        monitorTimeCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! SettingTimePeriodCell
+        volumeCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! SettingVolumeCell
+        diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
+        quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 1)) as! SettingCell
         
         // Initialise status of switches
         if monitorCell.switchOnOff.on {
@@ -97,7 +100,6 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     }
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Two section in this tableView
         return 3
@@ -109,7 +111,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
             return 2
         }else if section == 1 {
             // second section: sub controls: baby cry, diaper wet, temperature
-            return 3
+            return 4
         }else{
             // third section: choose picture from ablum
             return 2
@@ -123,13 +125,16 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
             diaperCell.switchOnOff.enabled = true
             quiltCell.switchOnOff.enabled = true
             monitorTimeCell.timePeriod.enabled = true
+            volumeCell.volumeSlider.enabled = true
         }else{
             settings?.monitor = false
             cryCell.switchOnOff.enabled = false
             diaperCell.switchOnOff.enabled = false
             quiltCell.switchOnOff.enabled = false
             monitorTimeCell.timePeriod.enabled = false
+            volumeCell.volumeSlider.enabled = false
         }
+        NSNotificationCenter.defaultCenter().postNotificationName("resetSettingsId", object: settings)
         do{
             try managedObjectContext.save()
         }catch{
@@ -141,7 +146,9 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     func turnOffCryNotification(toggle: UISwitch){
         if toggle.on {
             settings.babyCryOn = true
+            volumeCell.volumeSlider.enabled = true
         }else{
+            volumeCell.volumeSlider.enabled = false
             settings.babyCryOn = false
         }
     }
@@ -177,7 +184,14 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
             settings.timePeriod = fifteenMin
             break
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("changeTimePeriodId", object: settings)
+        NSNotificationCenter.defaultCenter().postNotificationName("resetSettingsId", object: settings)
+    }
+    
+    func changeVolume(){
+        let volume = Int(volumeCell.volumeSlider.value * 10 / 1500)
+        volumeCell.textLabel?.text = "Change volume  \(volume)"
+        settings.babyCryVolume = volumeCell.volumeSlider.value
+        
     }
     
 
@@ -202,25 +216,42 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
                 return monitorTimeCell
             }
         }else if indexPath.section == 1{
-            let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
             switch indexPath.row {
             case 0:
+                let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
+                // set none select style
+                settingCell.selectionStyle = UITableViewCellSelectionStyle.None
+                settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
                 settingCell.textLabel?.text = "Baby cry"
                 settingCell.switchOnOff.on = Bool(settings.babyCryOn!)
-                break
+                return settingCell
             case 1:
+                let volumeCell = tableView.dequeueReusableCellWithIdentifier("volumeCell", forIndexPath: indexPath) as! SettingVolumeCell
+                volumeCell.textLabel!.text = "Change volume"
+                volumeCell.selectionStyle = UITableViewCellSelectionStyle.None
+                volumeCell.volumeSlider.value = Float(settings.babyCryVolume!)
+                volumeCell.contentView.bringSubviewToFront(volumeCell.volumeSlider)
+                return volumeCell
+            case 2:
+                let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
+                // set none select style
+                settingCell.selectionStyle = UITableViewCellSelectionStyle.None
+                settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
+
                 settingCell.textLabel?.text = "Diaper wet"
                 settingCell.switchOnOff.on = Bool(settings.diaperWetOn!)
-                break
+                return settingCell
             default:
+                let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
+                // set none select style
+                settingCell.selectionStyle = UITableViewCellSelectionStyle.None
+                settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
+
                 settingCell.textLabel?.text = "Temperature anomaly"
                 settingCell.switchOnOff.on = Bool(settings.tempAnomaly!)
-                break
+                return settingCell
+                
             }
-            // set none select style
-            settingCell.selectionStyle = UITableViewCellSelectionStyle.None
-            settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
-            return settingCell
         }else{
             switch indexPath.row{
             case 0:

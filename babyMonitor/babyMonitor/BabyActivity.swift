@@ -50,6 +50,8 @@ class BabyActivity: NSManagedObject {
             return UIImage(named: "Cold")!
         case BabyActityType.START.rawValue:
             return UIImage(named: "Start")!
+        case BabyActityType.OUTOFSIGHT.rawValue:
+            return UIImage(named:"Footprints")!
         default:
             return UIImage(named:"Start")!
         }
