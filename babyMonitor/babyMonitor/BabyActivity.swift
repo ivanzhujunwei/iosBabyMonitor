@@ -31,8 +31,10 @@ class BabyActivity: NSManagedObject {
             self.activityName = babyName + "out of sight"
             return self
         case BabyActityType.START.rawValue:
-            let dateTxt = getDateText(self.date!)
-            self.activityName = "Monitor started on " + dateTxt
+            self.activityName = "Monitor started "
+            return self
+        case BabyActityType.END.rawValue:
+            self.activityName = "Monitor end"
             return self
         default:
             self.activityName = "Error"
@@ -50,16 +52,13 @@ class BabyActivity: NSManagedObject {
             return UIImage(named: "Cold")!
         case BabyActityType.START.rawValue:
             return UIImage(named: "Start")!
+        case BabyActityType.END.rawValue:
+            return UIImage(named: "Stop")!
         case BabyActityType.OUTOFSIGHT.rawValue:
             return UIImage(named:"Footprints")!
         default:
             return UIImage(named:"Start")!
         }
     }
-    
-    func getDateText(date: NSDate) -> String{
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        return dateFormatter.stringFromDate(date)
-    }
+
 }

@@ -22,7 +22,7 @@ class ActivityController: UITableViewController {
     var settings: Settings!
     
 //    var timePeriod : Double!
-    
+    let themeColor = UIColor(red: 255/255, green: 80/255, blue: 80/255, alpha: 1.0)
     var timer:NSTimer!
     
     required init?(coder aDecoder:NSCoder){
@@ -32,8 +32,26 @@ class ActivityController: UITableViewController {
         super.init(coder: aDecoder)
         fetchData()
         scheduleJobReadSensor()
-        // Add notificatioin for updating monitoring regions
+        // Add notificatioin for reset settings
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(resetSettings), name: "resetSettingsId", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addActivityStartOrEnd), name: "addActivityStartOrEndId", object: nil)
+    }
+    
+    // If user turn on the monitor switch, add a START activity
+    // If user turn off the monitor switch, add a END activity
+    func addActivityStartOrEnd(notification: NSNotification){
+        let toogle = notification.object as! UISwitch
+        if toogle.on{
+            addBabyActivity(BabyActityType.START.rawValue)
+        }else{
+            addBabyActivity(BabyActityType.END.rawValue)
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        // reload data
+        self.tableView.reloadData()
     }
     
     // Reset all the settings
@@ -49,6 +67,10 @@ class ActivityController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // set navigation bar / status bar color
+        self.navigationController!.navigationBar.barTintColor = themeColor
+        self.navigationController!.navigationBar.translucent = true
         // Mockup: new BabyActivity object
         // TODO: FROM SERVER
         let activity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
@@ -100,8 +122,12 @@ class ActivityController: UITableViewController {
             babyActivities = fetchResults
             // Fetch request for settings
             let fetchSettingResults = try managedObjectContext!.executeFetchRequest(fetchSettings) as! [Settings]
+            if fetchSettingResults.count == 0 {
+                settings = NSEntityDescription.insertNewObjectForEntityForName("Settings", inManagedObjectContext: managedObjectContext!) as! Settings
+            }else{
             // Initialise the babyActivities using fetch results
-            settings = fetchSettingResults[0]
+                settings = fetchSettingResults[0]
+            }
             
         }catch{
             fatalError("Failed to fetch category information: \(error)")
@@ -124,6 +150,11 @@ class ActivityController: UITableViewController {
         let babyActivity = babyActivities[babyActivities.count - 1 - indexPath.row]
         activityCell.time.text = String(babyActivity.date)
         activityCell.activityName.text = babyActivity.activityName
+        if babyActivity.type == BabyActityType.START.rawValue {
+            let dateTxt = getDateText(babyActivity.date!)
+            let appendStr = "on \(dateTxt)" as String
+            activityCell.activityName.text? += appendStr
+        }
         activityCell.icon.image =  babyActivity.getIconForActivity()
         activityCell.time.text = getTimeText(babyActivity.date!)
         activityCell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -266,28 +297,25 @@ class ActivityController: UITableViewController {
         return minutesFrom(lastActivity.date!) < 5
     }
     
-    // Returns the amount of minutes from another date
-    func minutesFrom(date: NSDate) -> Int{
-        // Reference: stackoverflow.com/questions/27182023/getting-the-difference-between-two-nsdates-in-months-days-hours-minutes-seconds
-        let currentDate = NSDate()
-        return NSCalendar.currentCalendar().components(.Minute, fromDate: date, toDate: currentDate, options: []).minute
-    }
-    
     // Add a baby activity
     func addBabyActivity(type:String){
-        // If the activity is the same in 10 miniutes, do not append
-        if !ifSameActivityIn5Min() {
-            let newActivity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-            newActivity.type = BabyActityType.OUTOFSIGHT.rawValue
-            newActivity.initByType()
-            babyActivities.append(newActivity)
-            do{
-                try managedObjectContext!.save()
-            }catch{
-                fatalError("Failure to save context: \(error)")
+        // If the activity is starting monitor or ending monitor, it is not the same activity
+        if type != BabyActityType.START.rawValue && type != BabyActityType.END.rawValue {
+            // If the activity is the same in 5 miniutes, do not append
+            if ifSameActivityIn5Min(){
+                return
             }
-            self.tableView.reloadData()
         }
+        let newActivity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
+        newActivity.type = type
+        newActivity.initByType()
+        babyActivities.append(newActivity)
+        do{
+            try managedObjectContext!.save()
+        }catch{
+            fatalError("Failure to save context: \(error)")
+        }
+        self.tableView.reloadData()
     }
     
     /*

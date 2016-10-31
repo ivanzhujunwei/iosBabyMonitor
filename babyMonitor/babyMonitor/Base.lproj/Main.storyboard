@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Activity Controller-->
+        <!--Activity Log-->
         <scene sceneID="MFZ-if-fzE">
             <objects>
                 <tableViewController id="gSj-h3-QrB" customClass="ActivityController" customModule="babyMonitor" customModuleProvider="target" sceneMemberID="viewController">
@@ -65,17 +65,7 @@
                             <outlet property="delegate" destination="gSj-h3-QrB" id="DBV-zf-QD5"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="nJX-ny-LFc">
-                        <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="fkX-y5-l5z">
-                            <rect key="frame" x="69" y="7" width="237" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Current activities"/>
-                                <segment title="History activities"/>
-                            </segments>
-                        </segmentedControl>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Activity Log" id="nJX-ny-LFc"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dN3-Ob-4Gq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -161,11 +151,11 @@
                                 <rect key="frame" x="0.0" y="285" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CSN-Co-91E" id="N4x-wh-GMl">
-                                    <frame key="frameInset" width="342" height="54"/>
+                                    <frame key="frameInset" width="342" height="54.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Choose from Photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lM6-nZ-bmR">
-                                            <frame key="frameInset" minX="15" width="325" height="54"/>
+                                            <frame key="frameInset" minX="15" width="325" height="54.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <nil key="textColor"/>
@@ -208,7 +198,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1l-oH-1RP">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1l-oH-1RP">
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>

@@ -29,6 +29,9 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     // 15 miniutes
     let fifteenMin = 900
     
+    
+    let themeColor = UIColor(red: 255/255, green: 80/255, blue: 80/255, alpha: 1.0)
+    
     required init?(coder aDecoder:NSCoder){
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         // Reference to the managedObjectContext in AppDelegate
@@ -40,6 +43,10 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         fetchData()
         super.viewDidLoad()
+        
+        // set navigation bar / status bar color
+        self.navigationController!.navigationBar.barTintColor = themeColor
+        self.navigationController!.navigationBar.translucent = true
         // Remove blank rows
         tableView.tableFooterView = UIView()
         
@@ -126,6 +133,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
             quiltCell.switchOnOff.enabled = true
             monitorTimeCell.timePeriod.enabled = true
             volumeCell.volumeSlider.enabled = true
+            
         }else{
             settings?.monitor = false
             cryCell.switchOnOff.enabled = false
@@ -135,6 +143,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
             volumeCell.volumeSlider.enabled = false
         }
         NSNotificationCenter.defaultCenter().postNotificationName("resetSettingsId", object: settings)
+        NSNotificationCenter.defaultCenter().postNotificationName("addActivityStartOrEndId", object: toggle)
         do{
             try managedObjectContext.save()
         }catch{
@@ -230,6 +239,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
                 volumeCell.textLabel!.text = "Change volume"
                 volumeCell.selectionStyle = UITableViewCellSelectionStyle.None
                 volumeCell.volumeSlider.value = Float(settings.babyCryVolume!)
+//                volumeCell.volumeSlider.enabled = settings.babyCryOn == 1
                 volumeCell.contentView.bringSubviewToFront(volumeCell.volumeSlider)
                 return volumeCell
             case 2:
@@ -291,6 +301,9 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        if !monitorCell.switchOnOff.on {
+            volumeCell.volumeSlider.enabled = false
+        }
         // reload data
         self.tableView.reloadData()
     }

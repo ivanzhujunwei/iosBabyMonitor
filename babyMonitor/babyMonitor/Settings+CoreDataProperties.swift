@@ -17,10 +17,12 @@ extension Settings {
     @NSManaged var babyCryOn: NSNumber?
     @NSManaged var babyCryVolume: NSNumber?
     @NSManaged var diaperWetOn: NSNumber?
+    @NSManaged var homePageInfo: String?
     @NSManaged var homePagePhoto: NSData?
     @NSManaged var monitor: NSNumber?
     @NSManaged var tempAnomaly: NSNumber?
-    @NSManaged var useDefaultHomePage: NSNumber?
+    @NSManaged var temperature: NSNumber?
     @NSManaged var timePeriod: NSNumber?
+    @NSManaged var useDefaultHomePage: NSNumber?
 
 }
