@@ -293,9 +293,19 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         }
     }
     
+    // execute after picking a picutre
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        let homeController = self.tabBarController?.viewControllers![0].childViewControllers[0] as! HomeController
-        homeController.babyPhone.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        
+        let imageData = UIImageJPEGRepresentation((info[UIImagePickerControllerOriginalImage] as? UIImage)!, 1)
+        settings.homePagePhoto = imageData
+        do{
+            try managedObjectContext.save()
+        }catch{
+            fatalError("Failure to save contect: \(error)")
+        }
+        
+        //let homeController = self.tabBarController?.viewControllers![0].childViewControllers[0] as! HomeController
+        //homeController.babyPhone.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
