@@ -30,6 +30,8 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         fetchData()
         // set home page photo
+        //let image = UIImage(data: (settings?.homePagePhoto)!)
+        //babyPhone.image = image
         babyPhone.image = UIImage(named: "baby_smile")
         // temperature text
         
@@ -42,6 +44,17 @@ class HomeController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         fetchData()
+        
+        if (settings?.homePagePhoto == nil)
+        {
+            babyPhone.image = UIImage(named: "baby_smile")
+        }
+        else
+        {
+            let image = UIImage(data: (settings?.homePagePhoto)!)
+            babyPhone.image = image
+        }
+        
         // TODO: FROM SENSOR
         latestUpdateTemp.text = "24°C"
         latestUpdateTemp.textColor = themeColor
