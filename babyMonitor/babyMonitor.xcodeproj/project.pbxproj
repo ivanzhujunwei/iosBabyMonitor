@@ -42,6 +42,7 @@
 		604EF0991DC7538600E00620 /* SettingVolumeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingVolumeCell.swift; sourceTree = "<group>"; };
 		605416961DC1AE2900AB05FC /* BabyActivity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BabyActivity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		605416971DC1AE2900AB05FC /* BabyActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabyActivity.swift; sourceTree = "<group>"; };
+		606293F21DCDC5F40056283D /* babyMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = babyMonitor.entitlements; sourceTree = "<group>"; };
 		60660BB21DC1AF13008EDA35 /* ActivityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityController.swift; sourceTree = "<group>"; };
 		6088CF0B1DC1CD580015A453 /* HomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		609288211DC1A74100026331 /* LiveStreamingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveStreamingController.swift; sourceTree = "<group>"; };
@@ -141,6 +142,7 @@
 		60F9E1B31DC0EEBA0083D240 /* babyMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				606293F21DCDC5F40056283D /* babyMonitor.entitlements */,
 				609A1CB31DC1870F00B3FEF7 /* viewController */,
 				609A1CAE1DC1849400B3FEF7 /* coreDataEntity */,
 				609A1CAD1DC1848700B3FEF7 /* tableViewCell */,
@@ -189,6 +191,11 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = ET8N4EUMNC;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -310,7 +317,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
@@ -353,7 +360,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos10.0;
@@ -367,6 +374,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = babyMonitor/babyMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: ivanzhujunwei@gmail.com (3RPP64DFG7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = ET8N4EUMNC;
@@ -387,6 +395,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = babyMonitor/babyMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: ivanzhujunwei@gmail.com (3RPP64DFG7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = ET8N4EUMNC;

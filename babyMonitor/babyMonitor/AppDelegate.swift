@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let supportedNotificationTypes:UIUserNotificationType = [.Alert, .Badge, .Sound]
         let notificationSettings = UIUserNotificationSettings(forTypes: supportedNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
-        application.beginBackgroundTaskWithName("showNotification", expirationHandler: nil)
         return true
     }
 

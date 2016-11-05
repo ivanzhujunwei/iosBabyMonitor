@@ -42,9 +42,9 @@ class ActivityController: UITableViewController {
     func addActivityStartOrEnd(notification: NSNotification){
         let toogle = notification.object as! UISwitch
         if toogle.on{
-            addBabyActivity(BabyActityType.START.rawValue)
+            addBabyActivityInApp(BabyActityType.START.rawValue)
         }else{
-            addBabyActivity(BabyActityType.END.rawValue)
+            addBabyActivityInApp(BabyActityType.END.rawValue)
         }
     }
     
@@ -212,8 +212,8 @@ class ActivityController: UITableViewController {
                 let temp = sensorData["celsiusData"] as! Double
                 self.settings.temperature = temp
                 // If the temperature is below than 25, alert will prompt up
-                if temp <= 27 {
-                    self.addBabyActivity(BabyActityType.COLD.rawValue)
+                if temp < 27 {
+                    self.addBabyActivityInApp(BabyActityType.COLD.rawValue)
                     self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " kicked off quilt.")
                 }
             } catch {
@@ -247,9 +247,10 @@ class ActivityController: UITableViewController {
                 if mositure >= 700 {
                     // Add the peed activity
                     print("Baby peed...")
-                    self.addBabyActivity(BabyActityType.WET.rawValue)
+                    self.addBabyActivityInApp(BabyActityType.WET.rawValue)
                     self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " peed.")
                 }else{
+                    self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " cried, was missing you")
                     print("Baby's diaper is dry")
                 }
                 
@@ -290,12 +291,12 @@ class ActivityController: UITableViewController {
                     let babyName = self.settings.babyName!
                     let warning = "Warning"
                     print("------------Start--------------")
-                    self.addBabyActivity(BabyActityType.CRY.rawValue)
+                    self.addBabyActivityInApp(BabyActityType.CRY.rawValue)
                     let outOfSightOrnot = self.detect()
                     // If the baby is out of sight
                     if outOfSightOrnot == "OutOfSight" {
                         print("Baby was out of sight...")
-                        self.addBabyActivity(BabyActityType.OUTOFSIGHT.rawValue)
+                        self.addBabyActivityInApp(BabyActityType.OUTOFSIGHT.rawValue)
                         self.showAlertWithDismiss(warning, message: babyName + " was out of sight.")
                     }else if outOfSightOrnot == "Detected"{
                         // If baby is in sight and peed
@@ -305,12 +306,12 @@ class ActivityController: UITableViewController {
                         }
                     }
                     // Add the cry activity
-                    let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 3000 * Int64(NSEC_PER_MSEC))
-                        dispatch_after(time, dispatch_get_main_queue()) {
-                            self.showAlertWithDismiss(warning, message: babyName + " cried, was missing you")
-                            print("Baby cried, was missing you...")
-                            print("------------------End----------\n")
-                    }
+//                    let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 3000 * Int64(NSEC_PER_MSEC))
+//                        dispatch_after(time, dispatch_get_main_queue()) {
+//                            self.showAlertWithDismiss(warning, message: babyName + " cried, was missing you")
+//                            print("Baby cried, was missing you...")
+//                            print("------------------End----------\n")
+//                    }
                 }
             } catch {
                 print("json error: \(error)")
@@ -335,7 +336,7 @@ class ActivityController: UITableViewController {
         let faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: accuracy)
         let faces = faceDetector!.featuresInImage(personciImage) as! [CIFaceFeature]
         if faces.count == 0 {
-            addBabyActivity(BabyActityType.OUTOFSIGHT.rawValue)
+            addBabyActivityInApp(BabyActityType.OUTOFSIGHT.rawValue)
             return "OutOfSight"
         }
         return "Detected"
@@ -450,9 +451,10 @@ class ActivityController: UITableViewController {
 
 
     // MARK: - Navigation
-    var pieChartData =  Dictionary<String, Int>()
+    var pieChartData :  Dictionary<String, Int>!
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if identifier == "chartSeg"{
+            pieChartData  =  Dictionary<String, Int>()
             for i in 0 ..< babyActivities.count {
                 let activity = babyActivities[i]
                 if activity.type != BabyActityType.START.rawValue && activity.type != BabyActityType.END.rawValue
