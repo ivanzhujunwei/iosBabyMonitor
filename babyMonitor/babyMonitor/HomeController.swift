@@ -23,12 +23,16 @@ class HomeController: UIViewController {
     
     var settings:Settings?
     
+//    var timer:NSTimer!
+    
     // the activity list that is being displayed
     var babyActivities: [BabyActivity]!
     let themeColor = UIColor(red: 255/255, green: 80/255, blue: 80/255, alpha: 1.0)
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
+        let activityController = self.tabBarController?.viewControllers![1].childViewControllers[0] as! ActivityController
+        activityController.scheduleJobReadSensor()
         // set home page photo
         //let image = UIImage(data: (settings?.homePagePhoto)!)
         //babyPhone.image = image
@@ -41,6 +45,24 @@ class HomeController: UIViewController {
         
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(resetTemp), name: "changeTemperature", object: nil)
     }
+    
+    // MARK: Timely job to read sensors
+//    func scheduleJobReadSensor(){
+//        if Bool(settings!.monitor!) {
+//            timer = NSTimer.scheduledTimerWithTimeInterval(Double(settings!.timePeriod!), target: self, selector: #selector(ActivityController.readSensors), userInfo: nil, repeats: true)
+//        }
+//    }
+    
+//    // Reset all the settings
+//    func resetSettings(notification: NSNotification){
+//        settings = notification.object as? Settings
+//        // Reset the timer
+//        if timer != nil {
+//            timer.invalidate()
+//            timer = nil
+//        }
+//        scheduleJobReadSensor()
+//    }
     
     override func viewWillAppear(animated: Bool) {
         fetchData()
@@ -56,7 +78,12 @@ class HomeController: UIViewController {
         }
         
         // TODO: FROM SENSOR
-        latestUpdateTemp.text = "24°C"
+        if settings?.temperature ==  nil{
+            latestUpdateTemp.text =  ""
+            print("Have not read the temperature yet")
+        }else{
+            latestUpdateTemp.text =  "\(settings!.temperature!)°C"
+        }
         latestUpdateTemp.textColor = themeColor
         
         // Get latest activity
@@ -67,7 +94,7 @@ class HomeController: UIViewController {
             let miniAgo = minutesFrom(activity.date!)
             let hourAgo = hoursFrom(activity.date!)
             let dayAgo = daysFrom(activity.date!)
-            let activityName = activity.activityName!
+            let activityName = (settings!.babyName )! + " " + activity.activityName!
             if miniAgo <= 1 {
                 lastActivityLabel.text = "\(activityName) just now."
                 return
@@ -82,7 +109,7 @@ class HomeController: UIViewController {
                 lastActivityLabel.text = "\(dayAgo) days ago, \(activityName)"
                 return
             }else {
-                lastActivityLabel.text = "Have not monitored your baby for a week"
+                lastActivityLabel.text = "Have not monitored your baby for a long time"
                 return
             }
         }

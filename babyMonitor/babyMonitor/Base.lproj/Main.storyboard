@@ -132,7 +132,7 @@
                                     <frame key="frameInset" width="375" height="54"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1000" minValue="300" maxValue="1500" translatesAutoresizingMaskIntoConstraints="NO" id="pPE-0q-TZ6">
+                                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="pPE-0q-TZ6">
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="228" id="kJ8-tk-PHD"/>
                                             </constraints>
@@ -164,6 +164,52 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="defaultImgCell" rowHeight="55" id="LEJ-dz-FCc" customClass="SettingDefaultImgCell" customModule="babyMonitor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="340" width="375" height="55"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LEJ-dz-FCc" id="8Uk-ob-UjW">
+                                    <frame key="frameInset" width="375" height="54"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJA-zx-JG0">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="76" id="siF-C4-G3w"/>
+                                            </constraints>
+                                            <state key="normal" title="Reset"/>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="eJA-zx-JG0" firstAttribute="centerY" secondItem="8Uk-ob-UjW" secondAttribute="centerY" id="4Z0-i0-x1J"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="eJA-zx-JG0" secondAttribute="trailing" constant="7" id="xRy-Fg-l6V"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="resetHomeImg" destination="eJA-zx-JG0" id="auF-Vv-ixc"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="babyNameCell" rowHeight="55" id="bKT-cJ-Xwc" customClass="SettingNameCell" customModule="babyMonitor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="395" width="375" height="55"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bKT-cJ-Xwc" id="xOO-bL-cJx">
+                                    <frame key="frameInset" width="342" height="54"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m4C-g4-bBT">
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="m4C-g4-bBT" firstAttribute="centerY" secondItem="xOO-bL-cJx" secondAttribute="centerY" id="Htn-hP-kvc"/>
+                                        <constraint firstItem="m4C-g4-bBT" firstAttribute="trailing" secondItem="xOO-bL-cJx" secondAttribute="trailingMargin" id="Jh1-A0-H7Y"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="babyNameLabel" destination="m4C-g4-bBT" id="q8p-VX-Xg7"/>
+                                    <segue destination="UHB-qp-q0r" kind="show" identifier="babyNameSeg" id="rn2-9D-9V8"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Xqf-ys-2hb" id="x0a-82-IbK"/>
@@ -175,6 +221,46 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fiw-w3-caf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="532" y="295.50224887556226"/>
+        </scene>
+        <!--Baby Name Controller-->
+        <scene sceneID="m3c-AI-j3P">
+            <objects>
+                <viewController id="UHB-qp-q0r" customClass="BabyNameController" customModule="babyMonitor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MNT-JN-Q10"/>
+                        <viewControllerLayoutGuide type="bottom" id="4As-rY-xZ4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2CX-s2-ogT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Baby's name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P5y-yF-hx8">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="P5y-yF-hx8" firstAttribute="top" secondItem="MNT-JN-Q10" secondAttribute="bottom" constant="36" id="GqV-hk-MkT"/>
+                            <constraint firstItem="P5y-yF-hx8" firstAttribute="trailing" secondItem="2CX-s2-ogT" secondAttribute="trailingMargin" id="HoW-Om-puW"/>
+                            <constraint firstItem="P5y-yF-hx8" firstAttribute="leading" secondItem="2CX-s2-ogT" secondAttribute="leadingMargin" id="vyl-4Q-n2A"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Hvh-4a-bE9">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="dhA-Jd-B3r">
+                            <connections>
+                                <action selector="setBabyName:" destination="UHB-qp-q0r" id="Lb4-Vg-bst"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="babyNameText" destination="P5y-yF-hx8" id="NVb-1g-Adq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xr0-a1-5nN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1284" y="295.50224887556226"/>
         </scene>
         <!--Live streaming-->
         <scene sceneID="kIc-zZ-pse">

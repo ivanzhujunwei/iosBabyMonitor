@@ -15,20 +15,20 @@ class BabyActivity: NSManagedObject {
 // Insert code here to add functionality to your managed object subclass
     
     func initByType()->BabyActivity{
-        let babyName = "Kevin "
+//        let babyName = "Kevin "
         self.date = NSDate()
         switch self.type!{
         case BabyActityType.CRY.rawValue:
-            self.activityName = babyName + "cried"
+            self.activityName = "cried"
             return self
         case BabyActityType.WET.rawValue:
-            self.activityName = babyName + "peed"
+            self.activityName = "peed"
             return self
         case BabyActityType.COLD.rawValue:
-            self.activityName = babyName + "kicked off quilt"
+            self.activityName = "kicked off quilt"
             return self
         case BabyActityType.OUTOFSIGHT.rawValue:
-            self.activityName = babyName + "out of sight"
+            self.activityName = "out of sight"
             return self
         case BabyActityType.START.rawValue:
             self.activityName = "Monitor started "

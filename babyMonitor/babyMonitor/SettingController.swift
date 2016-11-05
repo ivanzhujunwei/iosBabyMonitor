@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class SettingController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SettingController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SetBabyNameDelegate {
     
     var managedObjectContext : NSManagedObjectContext!
     var settings:Settings!
@@ -20,6 +20,8 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     var quiltCell : SettingCell!
     var monitorTimeCell : SettingTimePeriodCell!
     var volumeCell : SettingVolumeCell!
+    
+    var resetHomeImgCell : SettingDefaultImgCell!
     
     // Time period settings
     // 10 seconds
@@ -57,6 +59,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         quiltCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffQuiltNotification), forControlEvents: UIControlEvents.ValueChanged)
         monitorTimeCell.timePeriod.addTarget(self, action: #selector(SettingController.changeTimePeriod), forControlEvents: UIControlEvents.ValueChanged)
         volumeCell.volumeSlider.addTarget(self, action: #selector(SettingController.changeVolume), forControlEvents: UIControlEvents.ValueChanged)
+        resetHomeImgCell.resetHomeImg.addTarget(self, action: #selector(SettingController.resetHomeImge), forControlEvents: UIControlEvents.TouchDown)
     }
     
     // Initialise tableView cells
@@ -68,6 +71,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         volumeCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! SettingVolumeCell
         diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
         quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 1)) as! SettingCell
+        resetHomeImgCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 2)) as! SettingDefaultImgCell
         
         // Initialise status of switches
         if monitorCell.switchOnOff.on {
@@ -109,7 +113,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Two section in this tableView
-        return 3
+        return 4
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -119,9 +123,11 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         }else if section == 1 {
             // second section: sub controls: baby cry, diaper wet, temperature
             return 4
-        }else{
+        }else if section == 2{
             // third section: choose picture from ablum
             return 2
+        }else {
+            return 1
         }
     }
     
@@ -155,10 +161,23 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     func turnOffCryNotification(toggle: UISwitch){
         if toggle.on {
             settings.babyCryOn = true
+            settings.diaperWetOn = true
+            
             volumeCell.volumeSlider.enabled = true
+            diaperCell.switchOnOff.enabled = true
+            diaperCell.switchOnOff.on = true
         }else{
-            volumeCell.volumeSlider.enabled = false
             settings.babyCryOn = false
+            settings.diaperWetOn = false
+            
+            volumeCell.volumeSlider.enabled = false
+            diaperCell.switchOnOff.enabled = false
+            diaperCell.switchOnOff.on = false
+        }
+        do{
+            try managedObjectContext.save()
+        }catch{
+            fatalError("Failure to save contect: \(error)")
         }
     }
     
@@ -197,10 +216,30 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     }
     
     func changeVolume(){
-        let volume = Int(volumeCell.volumeSlider.value * 10 / 1500)
-        volumeCell.textLabel?.text = "Change volume  \(volume)"
-        settings.babyCryVolume = volumeCell.volumeSlider.value
+        let volume = 2200 - volumeCell.volumeSlider.value * 50
+        let str = NSString(format: "%.f", volumeCell.volumeSlider.value)
+        volumeCell.textLabel?.text = "Sensitive level  \(str)"
+        settings.babyCryVolume = volume
+        do{
+            try managedObjectContext.save()
+        }catch{
+            fatalError("Failure to save contect: \(error)")
+        }
         
+    }
+    
+    // Reset home page's image
+    func resetHomeImge(){
+        let homeController = self.tabBarController?.viewControllers![0].childViewControllers[0] as! HomeController
+        homeController.babyPhone.image = UIImage(named: "baby_smile")
+        let imageData = UIImageJPEGRepresentation(homeController.babyPhone.image!, 1)
+        settings.homePagePhoto = imageData
+        do{
+            try managedObjectContext.save()
+        }catch{
+            fatalError("Failure to save contect: \(error)")
+        }
+        showAlertWithDismiss("Done", message: "Reset successfully")
     }
     
 
@@ -218,7 +257,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
                 return settingCell
             default:
                 let monitorTimeCell = tableView.dequeueReusableCellWithIdentifier("monitorTimeCell", forIndexPath: indexPath) as! SettingTimePeriodCell
-                monitorTimeCell.textLabel?.text = "Time period"
+                monitorTimeCell.textLabel?.text = "Monitor interval"
                 monitorTimeCell.selectionStyle = UITableViewCellSelectionStyle.None
                 monitorTimeCell.contentView.bringSubviewToFront(monitorTimeCell.timePeriod)
                 monitorTimeCell.timePeriod.selectedSegmentIndex = getIndexForTimePeriod()
@@ -236,10 +275,9 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
                 return settingCell
             case 1:
                 let volumeCell = tableView.dequeueReusableCellWithIdentifier("volumeCell", forIndexPath: indexPath) as! SettingVolumeCell
-                volumeCell.textLabel!.text = "Change volume"
+                volumeCell.textLabel!.text = "Sensitive level"
                 volumeCell.selectionStyle = UITableViewCellSelectionStyle.None
-                volumeCell.volumeSlider.value = Float(settings.babyCryVolume!)
-//                volumeCell.volumeSlider.enabled = settings.babyCryOn == 1
+                volumeCell.volumeSlider.value = (2200 - Float(settings.babyCryVolume!) ) / 50
                 volumeCell.contentView.bringSubviewToFront(volumeCell.volumeSlider)
                 return volumeCell
             case 2:
@@ -262,29 +300,36 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
                 return settingCell
                 
             }
-        }else{
+        }else if indexPath.section == 2{
             switch indexPath.row{
             case 0:
-                let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
-                settingCell.textLabel?.text = "Use default home page"
-                settingCell.switchOnOff.on = Bool(settings.useDefaultHomePage!)
-                // set none select style
-                settingCell.selectionStyle = UITableViewCellSelectionStyle.None
-                settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
-                return settingCell
-            default:
-                
                 let choosePhotoCell = tableView.dequeueReusableCellWithIdentifier("choosePhotoCell", forIndexPath: indexPath) as UITableViewCell
                 choosePhotoCell.textLabel?.text = "Choose from Photos"
                 return choosePhotoCell
+            default:
+                let defaultImgCell = tableView.dequeueReusableCellWithIdentifier("defaultImgCell", forIndexPath: indexPath) as! SettingDefaultImgCell
+                defaultImgCell.textLabel?.text = "Use default home page"
+                // set none select style
+                defaultImgCell.selectionStyle = UITableViewCellSelectionStyle.None
+                defaultImgCell.contentView.bringSubviewToFront(defaultImgCell.resetHomeImg)
+                return defaultImgCell
+                
             }
+        }else{
+            let babyNameCell = tableView.dequeueReusableCellWithIdentifier("babyNameCell", forIndexPath: indexPath) as! SettingNameCell
+            
+            babyNameCell.textLabel?.text = "Baby's name"
+            babyNameCell.babyNameLabel.text = settings.babyName
+            babyNameCell.contentView.bringSubviewToFront(babyNameCell.babyNameLabel)
+//            babyNameCell.textLabel.text = "Bab"
+            return babyNameCell
         }
         
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // If the user click to select a photo
-        if indexPath.section == 2 && indexPath.row == 1{
+        if indexPath.section == 2 && indexPath.row == 0{
             // Reference: www.youtube.com/watch?v=leyk3QOYJF0
             let photoPicker = UIImagePickerController()
             photoPicker.delegate = self
@@ -329,49 +374,28 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         default: return 2
         }
     }
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+    
+    // Delegate
+    func setBabyName(name: String) {
+        settings.babyName = name
+        do{
+            try managedObjectContext.save()
+        }catch{
+            fatalError("Failure to save contect: \(error)")
+        }
 
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
+    
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "babyNameSeg" {
+            let controller = segue.destinationViewController as! BabyNameController
+            controller.setBabyNameDelegate = self
+            controller.name = settings.babyName
+        }
     }
-    */
 
 }

@@ -31,7 +31,7 @@ class ActivityController: UITableViewController {
         self.managedObjectContext = appDelegate.managedObjectContext
         super.init(coder: aDecoder)
         fetchData()
-        scheduleJobReadSensor()
+//        scheduleJobReadSensor()
         // Add notificatioin for reset settings
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(resetSettings), name: "resetSettingsId", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addActivityStartOrEnd), name: "addActivityStartOrEndId", object: nil)
@@ -54,7 +54,7 @@ class ActivityController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    // Reset all the settings
+//    // Reset all the settings
     func resetSettings(notification: NSNotification){
         settings = notification.object as! Settings
         // Reset the timer
@@ -71,30 +71,6 @@ class ActivityController: UITableViewController {
         // set navigation bar / status bar color
         self.navigationController!.navigationBar.barTintColor = themeColor
         self.navigationController!.navigationBar.translucent = true
-        // Mockup: new BabyActivity object
-        // TODO: FROM SERVER
-        let activity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-        activity.type = BabyActityType.CRY.rawValue
-        activity.initByType()
-        
-        let activity2 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-        activity2.type = BabyActityType.WET.rawValue
-        activity2.initByType()
-        
-        let activity3 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-        activity3.type = BabyActityType.COLD.rawValue
-        activity3.initByType()
-
-        
-        let activity0 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-        activity0.type = BabyActityType.START.rawValue
-        activity0.initByType()
-        
-        
-        babyActivities.append(activity0)
-        babyActivities.append(activity)
-        babyActivities.append(activity2)
-        babyActivities.append(activity3)
     }
     
     
@@ -124,6 +100,7 @@ class ActivityController: UITableViewController {
             let fetchSettingResults = try managedObjectContext!.executeFetchRequest(fetchSettings) as! [Settings]
             if fetchSettingResults.count == 0 {
                 settings = NSEntityDescription.insertNewObjectForEntityForName("Settings", inManagedObjectContext: managedObjectContext!) as! Settings
+                settings.babyCryVolume = 1700
             }else{
             // Initialise the babyActivities using fetch results
                 settings = fetchSettingResults[0]
@@ -149,7 +126,12 @@ class ActivityController: UITableViewController {
         let activityCell = tableView.dequeueReusableCellWithIdentifier("activityCell", forIndexPath: indexPath) as! ActivityLogCell
         let babyActivity = babyActivities[babyActivities.count - 1 - indexPath.row]
         activityCell.time.text = String(babyActivity.date)
-        activityCell.activityName.text = babyActivity.activityName
+        // Set tableViewCell activityName
+        if babyActivity.type == BabyActityType.START.rawValue || babyActivity.type == BabyActityType.END.rawValue{
+            activityCell.activityName.text = babyActivity.activityName!
+        }else{
+            activityCell.activityName.text = settings.babyName! + " " + babyActivity.activityName!
+        }
         if babyActivity.type == BabyActityType.START.rawValue {
             let dateTxt = getDateText(babyActivity.date!)
             let appendStr = "on \(dateTxt)" as String
@@ -182,6 +164,7 @@ class ActivityController: UITableViewController {
         }
     }
 
+    // MARK: read from sensors
     // Read data from different sensors
     func readSensors(){
         // Read from sound sensor
@@ -190,17 +173,23 @@ class ActivityController: UITableViewController {
         }
         // Read from mositure sensor
         if settings.diaperWetOn == 1 {
-            // TODO: Read from mositure sensor
+//            readMositureData()
         }
         // Read from the temperature sensor
         if settings.tempAnomaly == 1 {
-            // TODO: Read from the temperature sensor
+            //Read from the temperature sensor
+            readTempData()
+            let homeController = self.tabBarController?.viewControllers![0].childViewControllers[0] as! HomeController
+            homeController.viewWillAppear(true)
+
         }
+        // Refresh Home page 
+        
     }
-
-
-    func readSoundData(){
-        let url = NSURL(string: "http://172.20.10.5:6900/")!
+    
+    // Read temperature data
+    func readTempData(){
+        let url = NSURL(string: Constants.temperatureUrl)!
         let urlRequest = NSURLRequest(URL: url)
         let session = NSURLSession.sharedSession()
         let result = session.dataTaskWithRequest(urlRequest) {
@@ -217,21 +206,48 @@ class ActivityController: UITableViewController {
                 // use anyObj here
                 //let newObj = anyObj.reverse()
                 let sensorData = anyObj[0]
-                let cryBool = sensorData["cryBool"] as! Bool
+                let temp = sensorData["celsiusData"] as! Double
+                self.settings.temperature = temp
+                // If the temperature is below than 25, alert will prompt up
+                if temp <= 23 {
+                    self.addBabyActivity(BabyActityType.COLD.rawValue)
+                    self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " kicked off quilt.")
+                }
+            } catch {
+                print("json error: \(error)")
+            }
+        }
+        result.resume()
+    }
+    
+    // Read mositure data
+    func readMositureData(){
+        let url = NSURL(string: Constants.mositureUrl)!
+        let urlRequest = NSURLRequest(URL: url)
+        let session = NSURLSession.sharedSession()
+        let result = session.dataTaskWithRequest(urlRequest) {
+            (data, response, error) in
+            // Async request, write code inside this handler once data has been processed
+            do {
+                // if no data is being received
+                if data == nil {
+                    self.showAlertWithDismiss("Error", message: "Server connection error!")
+                    return
+                }
+                // If there is only one group of data sent, which is not a NSArray, this would cause exception
+                let anyObj = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSArray
+                // use anyObj here
+                //let newObj = anyObj.reverse()
+                let sensorData = anyObj[0]
+                let mositure = sensorData["moisture"] as! Double
                 // If the baby cry
-                if cryBool{
-                    print("Baby crying...")
-                    // Add the cry activity
-                    self.addBabyActivity(BabyActityType.CRY.rawValue)
+                if mositure >= 700 {
+                    // Add the peed activity
+                    print("Baby peed...")
+                    self.addBabyActivity(BabyActityType.WET.rawValue)
+                    self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " peed.")
                 }else{
-                    let url:NSURL = NSURL(string:"http://172.20.10.5/cam.jpg")!
-                    let data = NSData(contentsOfURL:url)
-                    if data != nil{
-                        let hideBabyPhoto = UIImage(data:data!)
-                        // TEST: Detect if the baby is out of sight
-                        self.detect(hideBabyPhoto!)
-                    }
-                    print("222")
+                    print("Baby's diaper is dry")
                 }
                 
             } catch {
@@ -241,70 +257,112 @@ class ActivityController: UITableViewController {
         result.resume()
     }
     
-    
-    func detect(image:UIImage) {
-        guard let personciImage = CIImage(image: image) else {
-            return
+
+
+    // Read data from sound server
+    func readSoundData(){
+        let url = NSURL(string: Constants.soundUrl)!
+        let urlRequest = NSURLRequest(URL: url)
+        let session = NSURLSession.sharedSession()
+        let result = session.dataTaskWithRequest(urlRequest) {
+            (data, response, error) in
+            // Async request, write code inside this handler once data has been processed
+            do {
+                // if no data is being received
+                if data == nil {
+                    self.showAlertWithDismiss("Error", message: "Server connection error!")
+                    return
+                }
+                // If there is only one group of data sent, which is not a NSArray, this would cause exception
+                let anyObj = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSArray
+                // use anyObj here
+                //let newObj = anyObj.reverse()
+                let sensorData = anyObj[0]
+                if sensorData["frequency"] == nil{
+                    return
+                }
+                let volume = sensorData["frequency"] as! Double
+                // If the baby cry
+                if volume >= Double(self.settings.babyCryVolume!){
+                    let babyName = self.settings.babyName!
+                    let warning = "Warning"
+                    print("------------Start--------------")
+                    self.addBabyActivity(BabyActityType.CRY.rawValue)
+                    let outOfSightOrnot = self.detect()
+                    // If the baby is out of sight
+                    if outOfSightOrnot == "OutOfSight" {
+                        print("Baby was out of sight...")
+                        self.addBabyActivity(BabyActityType.OUTOFSIGHT.rawValue)
+                        self.showAlertWithDismiss(warning, message: babyName + " was out of sight.")
+                    }else if outOfSightOrnot == "Detected"{
+                        // If baby is in sight and peed
+                        if self.settings.diaperWetOn == 1 {
+                            print("Face detected, then detect if baby peed or not")
+                            self.readMositureData()
+                        }
+                    }
+                    // Add the cry activity
+                    let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 3000 * Int64(NSEC_PER_MSEC))
+                        dispatch_after(time, dispatch_get_main_queue()) {
+                            self.showAlertWithDismiss(warning, message: babyName + " cried, was missing you")
+                            print("Baby cried, was missing you...")
+                            print("------------------End----------\n")
+                    }
+                }
+            } catch {
+                print("json error: \(error)")
+            }
         }
-        
+        result.resume()
+    }
+    
+    // Detect if the baby is out of sight
+    func detect() -> String{
+        let url:NSURL = NSURL(string: Constants.cameraHideUrl)!
+        let data = NSData(contentsOfURL:url)
+        if data == nil{
+            return "NoData"
+        }
+        let hideBabyPhoto = UIImage(data:data!)
+        guard let personciImage = CIImage(image: hideBabyPhoto!)
+        else {
+            return "Unknown"
+        }
         let accuracy = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
         let faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: accuracy)
-        let faces = faceDetector!.featuresInImage(personciImage)
-        
-        // For converting the Core Image Coordinates to UIView Coordinates
-        let ciImageSize = personciImage.extent.size
-        var transform = CGAffineTransformMakeScale(1, -1)
-        transform = CGAffineTransformTranslate(transform, 0, -ciImageSize.height)
-        
-        var detected: Bool = false
-        
-        for face in faces as! [CIFaceFeature] {
-            print("Found bounds are \(face.bounds)")
-            // Apply the transform to convert the coordinates
-//            let faceViewBounds = CGRectApplyAffineTransform(face.bounds, transform)
-//            let faceBox = UIView(frame: faceViewBounds)
-//            faceBox.layer.borderWidth = 3
-//            faceBox.layer.borderColor = UIColor.redColor().CGColor
-//            faceBox.backgroundColor = UIColor.clearColor()
-            let alert = UIAlertController(title: "Say Cheese!", message: "We detected that your baby is in the bed crib!", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-            detected = true
-            
-        }
-        // If baby is out of sight
-        if detected{
-            let newActivity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
-            newActivity.type = BabyActityType.CRY.rawValue
-            newActivity.initByType()
-            
-            babyActivities.append(newActivity)
-//            NSNotificationCenter.defaultCenter().postNotificationName("addBabyActivityId", object: nil)
-        }else{
+        let faces = faceDetector!.featuresInImage(personciImage) as! [CIFaceFeature]
+        if faces.count == 0 {
             addBabyActivity(BabyActityType.OUTOFSIGHT.rawValue)
-//            let alert = UIAlertController(title: "Warning!", message: "Your baby is out of sight!", preferredStyle: UIAlertControllerStyle.Alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-//            self.presentViewController(alert, animated: true, completion: nil)
+            return "OutOfSight"
         }
+        return "Detected"
     }
     
     // detect if the activity is same inside 5 miniutes
-    func ifSameActivityIn5Min() -> Bool{
+    func ifSameActivityIn2Min(type:String) -> Bool{
         if babyActivities.count == 0 {
             return false
         }
-        let lastActivity = babyActivities[babyActivities.count - 1]
-        return minutesFrom(lastActivity.date!) < 5
+        let activities : [BabyActivity] = babyActivities.reverse()
+        for activity in activities {
+            // If the time interval between the two activities with same type is less than 5 miniutes
+            // Then the APP will not record this activity as well as not sending notifications
+            if activity.type == type {
+                return minutesFrom(activity.date!) < 2
+            }
+        }
+        return false
     }
-    
+
     // Add a baby activity
     func addBabyActivity(type:String){
         // If the activity is starting monitor or ending monitor, it is not the same activity
         if type != BabyActityType.START.rawValue && type != BabyActityType.END.rawValue {
             // If the activity is the same in 5 miniutes, do not append
-            if ifSameActivityIn5Min(){
+            if ifSameActivityIn2Min(type){
                 return
             }
+//            showAlertForActivities(type)
         }
         let newActivity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
         newActivity.type = type
@@ -316,7 +374,35 @@ class ActivityController: UITableViewController {
             fatalError("Failure to save context: \(error)")
         }
         self.tableView.reloadData()
+        // Refresh home page
+        let homeController = self.tabBarController?.viewControllers![0].childViewControllers[0] as! HomeController
+        homeController.viewWillAppear(true)
     }
+    
+    // Show different alert based on different baby activities
+//    func showAlertForActivities(type:String){
+//        let babyName : String = settings.babyName!
+//        var warningInfo :String = ""
+//        if type == BabyActityType.COLD.rawValue {
+//        }else if type == BabyActityType.WET.rawValue{
+//        }else if type == BabyActityType.Cry
+//        switch type{
+//        case BabyActityType.COLD.rawValue:
+//            print("Baby kicked off quilt...")
+//            warningInfo = babyName + " kicked off quilt!"
+//            break
+////        case BabyActityType.CRY.rawValue:
+////            warningInfo = babyName + " cried, was missing you!"
+////            break
+//        case BabyActityType.WET.rawValue:
+//            warningInfo = babyName + " peed!"
+//            break
+//        default:
+//            warningInfo = babyName + " was out of sight!"
+//            break
+//        }
+//        showAlertWithDismiss("Warning", message: warningInfo)
+//    }
     
     /*
     // Override to support conditional editing of the table view.
@@ -362,14 +448,5 @@ class ActivityController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    // MARK: ALERT
-    // Helper function to produce an alert for the user
-    func showAlertWithDismiss(title:String, message:String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let alertDismissAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alertController.addAction(alertDismissAction)
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
 
 }

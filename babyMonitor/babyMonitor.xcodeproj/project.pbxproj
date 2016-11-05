@@ -19,7 +19,10 @@
 		609A1CB21DC1863600B3FEF7 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A1CB11DC1863600B3FEF7 /* SettingCell.swift */; };
 		609A1CB51DC1873B00B3FEF7 /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A1CB41DC1873B00B3FEF7 /* SettingController.swift */; };
 		60E0BF6E1DC7678A000BCB74 /* UtilityForViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BF6D1DC7678A000BCB74 /* UtilityForViewControllers.swift */; };
+		60E736841DCC4CE100EF8FC2 /* SettingNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E736831DCC4CE100EF8FC2 /* SettingNameCell.swift */; };
 		60EF91DB1DC708FA001B2851 /* SettingTimePeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EF91DA1DC708FA001B2851 /* SettingTimePeriodCell.swift */; };
+		60F905311DCC35E800C73B31 /* SettingDefaultImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F905301DCC35E800C73B31 /* SettingDefaultImgCell.swift */; };
+		60F905351DCC468400C73B31 /* BabyNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F905341DCC468400C73B31 /* BabyNameController.swift */; };
 		60F9E1B51DC0EEBA0083D240 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F9E1B41DC0EEBA0083D240 /* AppDelegate.swift */; };
 		60F9E1BA1DC0EEBA0083D240 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60F9E1B81DC0EEBA0083D240 /* Main.storyboard */; };
 		60F9E1BD1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 60F9E1BB1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld */; };
@@ -40,7 +43,10 @@
 		609A1CB11DC1863600B3FEF7 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		609A1CB41DC1873B00B3FEF7 /* SettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
 		60E0BF6D1DC7678A000BCB74 /* UtilityForViewControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityForViewControllers.swift; sourceTree = "<group>"; };
+		60E736831DCC4CE100EF8FC2 /* SettingNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNameCell.swift; sourceTree = "<group>"; };
 		60EF91DA1DC708FA001B2851 /* SettingTimePeriodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTimePeriodCell.swift; sourceTree = "<group>"; };
+		60F905301DCC35E800C73B31 /* SettingDefaultImgCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingDefaultImgCell.swift; sourceTree = "<group>"; };
+		60F905341DCC468400C73B31 /* BabyNameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabyNameController.swift; sourceTree = "<group>"; };
 		60F9E1B11DC0EEBA0083D240 /* babyMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = babyMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60F9E1B41DC0EEBA0083D240 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		60F9E1B91DC0EEBA0083D240 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -68,6 +74,8 @@
 				609A1CB11DC1863600B3FEF7 /* SettingCell.swift */,
 				60EF91DA1DC708FA001B2851 /* SettingTimePeriodCell.swift */,
 				604EF0991DC7538600E00620 /* SettingVolumeCell.swift */,
+				60F905301DCC35E800C73B31 /* SettingDefaultImgCell.swift */,
+				60E736831DCC4CE100EF8FC2 /* SettingNameCell.swift */,
 			);
 			name = tableViewCell;
 			sourceTree = "<group>";
@@ -90,6 +98,7 @@
 				609288211DC1A74100026331 /* LiveStreamingController.swift */,
 				60660BB21DC1AF13008EDA35 /* ActivityController.swift */,
 				609A1CB41DC1873B00B3FEF7 /* SettingController.swift */,
+				60F905341DCC468400C73B31 /* BabyNameController.swift */,
 			);
 			name = viewController;
 			sourceTree = "<group>";
@@ -206,13 +215,16 @@
 				6039CFE51DC389A800395D18 /* Settings.swift in Sources */,
 				60F9E1B51DC0EEBA0083D240 /* AppDelegate.swift in Sources */,
 				60660BB31DC1AF13008EDA35 /* ActivityController.swift in Sources */,
+				60F905311DCC35E800C73B31 /* SettingDefaultImgCell.swift in Sources */,
 				60E0BF6E1DC7678A000BCB74 /* UtilityForViewControllers.swift in Sources */,
 				6088CF0C1DC1CD580015A453 /* HomeController.swift in Sources */,
 				6054169B1DC1AE2900AB05FC /* BabyActivity.swift in Sources */,
 				6054169A1DC1AE2900AB05FC /* BabyActivity+CoreDataProperties.swift in Sources */,
+				60F905351DCC468400C73B31 /* BabyNameController.swift in Sources */,
 				6039CFE41DC389A800395D18 /* Settings+CoreDataProperties.swift in Sources */,
 				60F9E1BD1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld in Sources */,
 				609A1CB21DC1863600B3FEF7 /* SettingCell.swift in Sources */,
+				60E736841DCC4CE100EF8FC2 /* SettingNameCell.swift in Sources */,
 				604EF09A1DC7538600E00620 /* SettingVolumeCell.swift in Sources */,
 				609A1CB01DC184E700B3FEF7 /* ActivityLogCell.swift in Sources */,
 			);
