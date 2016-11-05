@@ -31,6 +31,11 @@ extension UIViewController {
         return NSCalendar.currentCalendar().components(.Hour, fromDate: date, toDate: currentDate, options: []).hour
     }
     
+    // Return the amount of hours from oldDate to newDate
+    func minutesFromTwoDate(oldDate: NSDate, newDate: NSDate) -> Int{
+        return NSCalendar.currentCalendar().components(.Minute, fromDate: oldDate, toDate: newDate, options: []).minute
+    }
+    
     // Get date in text format
     func getDateText(date: NSDate) -> String{
         let dateFormatter = NSDateFormatter()

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		6039CFE41DC389A800395D18 /* Settings+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6039CFE21DC389A800395D18 /* Settings+CoreDataProperties.swift */; };
 		6039CFE51DC389A800395D18 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6039CFE31DC389A800395D18 /* Settings.swift */; };
+		603EB2721DCD76730057E55A /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 603EB2711DCD76730057E55A /* ShinobiCharts.framework */; };
+		603EB2751DCD767C0057E55A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 603EB2741DCD767C0057E55A /* libc++.tbd */; };
+		603EB27B1DCD77C30057E55A /* ShinobiChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603EB27A1DCD77C30057E55A /* ShinobiChartController.swift */; };
 		604EF09A1DC7538600E00620 /* SettingVolumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604EF0991DC7538600E00620 /* SettingVolumeCell.swift */; };
 		6054169A1DC1AE2900AB05FC /* BabyActivity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605416961DC1AE2900AB05FC /* BabyActivity+CoreDataProperties.swift */; };
 		6054169B1DC1AE2900AB05FC /* BabyActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605416971DC1AE2900AB05FC /* BabyActivity.swift */; };
@@ -33,6 +36,9 @@
 /* Begin PBXFileReference section */
 		6039CFE21DC389A800395D18 /* Settings+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Settings+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6039CFE31DC389A800395D18 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		603EB2711DCD76730057E55A /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShinobiCharts.framework; sourceTree = "<group>"; };
+		603EB2741DCD767C0057E55A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		603EB27A1DCD77C30057E55A /* ShinobiChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShinobiChartController.swift; sourceTree = "<group>"; };
 		604EF0991DC7538600E00620 /* SettingVolumeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingVolumeCell.swift; sourceTree = "<group>"; };
 		605416961DC1AE2900AB05FC /* BabyActivity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BabyActivity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		605416971DC1AE2900AB05FC /* BabyActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BabyActivity.swift; sourceTree = "<group>"; };
@@ -61,12 +67,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				603EB2751DCD767C0057E55A /* libc++.tbd in Frameworks */,
+				603EB2721DCD76730057E55A /* ShinobiCharts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		603EB2731DCD767B0057E55A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				603EB2741DCD767C0057E55A /* libc++.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		609A1CAD1DC1848700B3FEF7 /* tableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +115,7 @@
 				60660BB21DC1AF13008EDA35 /* ActivityController.swift */,
 				609A1CB41DC1873B00B3FEF7 /* SettingController.swift */,
 				60F905341DCC468400C73B31 /* BabyNameController.swift */,
+				603EB27A1DCD77C30057E55A /* ShinobiChartController.swift */,
 			);
 			name = viewController;
 			sourceTree = "<group>";
@@ -108,6 +125,8 @@
 			children = (
 				60F9E1B31DC0EEBA0083D240 /* babyMonitor */,
 				60F9E1B21DC0EEBA0083D240 /* Products */,
+				603EB2711DCD76730057E55A /* ShinobiCharts.framework */,
+				603EB2731DCD767B0057E55A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -225,6 +244,7 @@
 				60F9E1BD1DC0EEBA0083D240 /* babyMonitor.xcdatamodeld in Sources */,
 				609A1CB21DC1863600B3FEF7 /* SettingCell.swift in Sources */,
 				60E736841DCC4CE100EF8FC2 /* SettingNameCell.swift in Sources */,
+				603EB27B1DCD77C30057E55A /* ShinobiChartController.swift in Sources */,
 				604EF09A1DC7538600E00620 /* SettingVolumeCell.swift in Sources */,
 				609A1CB01DC184E700B3FEF7 /* ActivityLogCell.swift in Sources */,
 			);
@@ -290,7 +310,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
@@ -333,7 +353,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos10.0;
@@ -350,11 +370,16 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: ivanzhujunwei@gmail.com (3RPP64DFG7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = ET8N4EUMNC;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = babyMonitor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FIT5140.babyMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/zjw/Downloads/trials/shinobicharts/shinobicontrols-ios-charts-trial-objc-2.9.0/ShinobiCharts.framework/Headers/ShinobiChart-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -365,11 +390,16 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: ivanzhujunwei@gmail.com (3RPP64DFG7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = ET8N4EUMNC;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = babyMonitor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FIT5140.babyMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/zjw/Downloads/trials/shinobicharts/shinobicontrols-ios-charts-trial-objc-2.9.0/ShinobiCharts.framework/Headers/ShinobiChart-Bridging-Header.h";
 			};
 			name = Release;
 		};

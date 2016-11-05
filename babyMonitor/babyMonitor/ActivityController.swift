@@ -96,6 +96,9 @@ class ActivityController: UITableViewController {
             let fetchResults = try managedObjectContext!.executeFetchRequest(fetch) as! [BabyActivity]
             // Initialise the babyActivities using fetch results
             babyActivities = fetchResults
+            if babyActivities.count == 0 {
+                addBabyActivity(BabyActityType.START.rawValue)
+            }
             // Fetch request for settings
             let fetchSettingResults = try managedObjectContext!.executeFetchRequest(fetchSettings) as! [Settings]
             if fetchSettingResults.count == 0 {
@@ -209,7 +212,7 @@ class ActivityController: UITableViewController {
                 let temp = sensorData["celsiusData"] as! Double
                 self.settings.temperature = temp
                 // If the temperature is below than 25, alert will prompt up
-                if temp <= 23 {
+                if temp <= 27 {
                     self.addBabyActivity(BabyActityType.COLD.rawValue)
                     self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " kicked off quilt.")
                 }
@@ -354,16 +357,25 @@ class ActivityController: UITableViewController {
         return false
     }
 
-    // Add a baby activity
-    func addBabyActivity(type:String){
+    // Add a baby activity with checkings and reloading
+    func addBabyActivityInApp(type:String){
         // If the activity is starting monitor or ending monitor, it is not the same activity
         if type != BabyActityType.START.rawValue && type != BabyActityType.END.rawValue {
             // If the activity is the same in 5 miniutes, do not append
             if ifSameActivityIn2Min(type){
                 return
             }
-//            showAlertForActivities(type)
         }
+        addBabyActivity(type)
+        self.tableView.reloadData()
+        // Refresh home page
+        let homeController = self.tabBarController?.viewControllers![0].childViewControllers[0] as! HomeController
+        homeController.viewWillAppear(true)
+        viewWillAppear(true)
+    }
+    
+    // Only add a baby activity
+    func addBabyActivity(type:String){
         let newActivity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
         newActivity.type = type
         newActivity.initByType()
@@ -373,10 +385,7 @@ class ActivityController: UITableViewController {
         }catch{
             fatalError("Failure to save context: \(error)")
         }
-        self.tableView.reloadData()
-        // Refresh home page
-        let homeController = self.tabBarController?.viewControllers![0].childViewControllers[0] as! HomeController
-        homeController.viewWillAppear(true)
+        
     }
     
     // Show different alert based on different baby activities
@@ -439,14 +448,40 @@ class ActivityController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - Navigation
+    var pieChartData =  Dictionary<String, Int>()
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if identifier == "chartSeg"{
+            for i in 0 ..< babyActivities.count {
+                let activity = babyActivities[i]
+                if activity.type != BabyActityType.START.rawValue && activity.type != BabyActityType.END.rawValue
+                {
+                    let key = activity.type!
+                    if  pieChartData.indexForKey(key) == nil {
+                        pieChartData.updateValue(1, forKey: key)
+                    }else{
+                        let v = pieChartData[key]! + 1
+                        pieChartData.updateValue(v, forKey: key)
+                    }
+                }
+            }
+            if pieChartData.count == 0{
+                self.showAlertWithDismiss("Reminder", message: "No activity yet.")
+                return false
+            }
+        //Continue with the segue
+        }
+        return true
     }
-    */
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "chartSeg" {
+            let cont = segue.destinationViewController as! ShinobiChartController
+            cont.babyActivities = self.babyActivities
+            cont.babyName = settings.babyName
+            cont.pieChartData = pieChartData
+        }
+    }
 
 }

@@ -20,7 +20,7 @@ class LiveStreamingController: UIViewController, UIWebViewDelegate {
         babyWebView.opaque = true
         babyWebView.backgroundColor = UIColor.clearColor()
         // Webpage file location in server: /var/www/html/
-        let videoUrl = Constants.cameraUrl//"http://172.20.10.12/cameravideo.php"
+        let videoUrl = Constants.cameraUrl
         babyWebView.allowsInlineMediaPlayback = true
         babyWebView.loadHTMLString(
             "<iframe width=\"\(self.babyWebView.frame.width)\" height=\"\(self.babyWebView.frame.height)\" src=\"\(videoUrl)?playsinline=1\" frameborder=\"0\" allowfullscreen></iframe>", baseURL: nil)

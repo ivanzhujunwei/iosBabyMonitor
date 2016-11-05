@@ -1,0 +1,6 @@
+framework module ShinobiCharts {
+  umbrella header "ShinobiCharts.h"
+  exclude header "ShinobiChart-Bridging-Header.h"
+  export *
+  module * { export * }
+}
