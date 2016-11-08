@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import CoreImage
 
+//
 class HomeController: UIViewController {
 
     @IBOutlet var babyPhone: UIImageView!

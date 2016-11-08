@@ -213,8 +213,10 @@ class ActivityController: UITableViewController {
                 self.settings.temperature = temp
                 // If the temperature is below than 25, alert will prompt up
                 if temp < 27 {
-                    self.addBabyActivityInApp(BabyActityType.COLD.rawValue)
-                    self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " kicked off quilt.")
+                    if !self.ifSameActivityIn2Min(BabyActityType.COLD.rawValue){
+                        self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " kicked off quilt.")
+                        self.addBabyActivityInApp(BabyActityType.COLD.rawValue)
+                    }
                 }
             } catch {
                 print("json error: \(error)")
@@ -246,12 +248,16 @@ class ActivityController: UITableViewController {
                 // If the baby cry
                 if mositure >= 700 {
                     // Add the peed activity
-                    print("Baby peed...")
-                    self.addBabyActivityInApp(BabyActityType.WET.rawValue)
-                    self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " peed.")
+                    if !self.ifSameActivityIn2Min(BabyActityType.WET.rawValue){
+                        print("Baby peed...")
+                        self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " peed.")
+                        self.addBabyActivityInApp(BabyActityType.WET.rawValue)
+                    }
                 }else{
-                    self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " cried, was missing you")
-                    print("Baby's diaper is dry")
+                    if !self.ifSameActivityIn2Min(BabyActityType.CRY.rawValue){
+                        self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " cried, was missing you")
+                        print("Baby's diaper is dry")
+                    }
                 }
                 
             } catch {
@@ -296,8 +302,10 @@ class ActivityController: UITableViewController {
                     // If the baby is out of sight
                     if outOfSightOrnot == "OutOfSight" {
                         print("Baby was out of sight...")
-                        self.addBabyActivityInApp(BabyActityType.OUTOFSIGHT.rawValue)
-                        self.showAlertWithDismiss(warning, message: babyName + " was out of sight.")
+                        if !self.ifSameActivityIn2Min(BabyActityType.OUTOFSIGHT.rawValue){
+                            self.showAlertWithDismiss(warning, message: babyName + " was out of sight.")
+                            self.addBabyActivityInApp(BabyActityType.OUTOFSIGHT.rawValue)
+                        }
                     }else if outOfSightOrnot == "Detected"{
                         // If baby is in sight and peed
                         if self.settings.diaperWetOn == 1 {
@@ -336,13 +344,13 @@ class ActivityController: UITableViewController {
         let faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: accuracy)
         let faces = faceDetector!.featuresInImage(personciImage) as! [CIFaceFeature]
         if faces.count == 0 {
-            addBabyActivityInApp(BabyActityType.OUTOFSIGHT.rawValue)
+//            addBabyActivityInApp(BabyActityType.OUTOFSIGHT.rawValue)
             return "OutOfSight"
         }
         return "Detected"
     }
     
-    // detect if the activity is same inside 5 miniutes
+    // detect if the activity is same inside 2 miniutes
     func ifSameActivityIn2Min(type:String) -> Bool{
         if babyActivities.count == 0 {
             return false
@@ -352,7 +360,13 @@ class ActivityController: UITableViewController {
             // If the time interval between the two activities with same type is less than 5 miniutes
             // Then the APP will not record this activity as well as not sending notifications
             if activity.type == type {
-                return minutesFrom(activity.date!) < 2
+                print(minutesFrom(activity.date!))
+                if minutesFrom(activity.date!) < 2 {
+                    return true
+                }else{
+                    return false
+                }
+//                return minutesFrom(activity.date!) < 2
             }
         }
         return false
@@ -364,6 +378,7 @@ class ActivityController: UITableViewController {
         if type != BabyActityType.START.rawValue && type != BabyActityType.END.rawValue {
             // If the activity is the same in 5 miniutes, do not append
             if ifSameActivityIn2Min(type){
+//                print("Activity in 2 miniutes, return")
                 return
             }
         }
