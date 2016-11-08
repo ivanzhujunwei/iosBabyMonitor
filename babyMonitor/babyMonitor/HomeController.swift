@@ -10,25 +10,31 @@ import UIKit
 import CoreData
 import CoreImage
 
-//
+// Home page of the application
+// Display current temperature in door and latest baby activity info
+// User can choose a  home page photo as the background
 class HomeController: UIViewController {
 
     @IBOutlet var babyPhone: UIImageView!
     
-    // lastest updated temperature
+    // latest updated temperature
     @IBOutlet var latestUpdateTemp: UILabel!
     
+    // latest updated baby activity information
     @IBOutlet var lastActivityLabel: UILabel!
     
     var managedObjectContext : NSManagedObjectContext?
     
+    // Application settings stored in Core data
     var settings:Settings?
     
-//    var timer:NSTimer!
     
     // the activity list that is being displayed
     var babyActivities: [BabyActivity]!
+    
+    // Application theme color
     let themeColor = UIColor(red: 255/255, green: 80/255, blue: 80/255, alpha: 1.0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
@@ -38,36 +44,17 @@ class HomeController: UIViewController {
         //let image = UIImage(data: (settings?.homePagePhoto)!)
         //babyPhone.image = image
         babyPhone.image = UIImage(named: "baby_smile")
-        // temperature text
         
         // set navigation bar / status bar color
         self.navigationController!.navigationBar.barTintColor = themeColor
         self.navigationController!.navigationBar.translucent = true
         
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(resetTemp), name: "changeTemperature", object: nil)
     }
-    
-    // MARK: Timely job to read sensors
-//    func scheduleJobReadSensor(){
-//        if Bool(settings!.monitor!) {
-//            timer = NSTimer.scheduledTimerWithTimeInterval(Double(settings!.timePeriod!), target: self, selector: #selector(ActivityController.readSensors), userInfo: nil, repeats: true)
-//        }
-//    }
-    
-//    // Reset all the settings
-//    func resetSettings(notification: NSNotification){
-//        settings = notification.object as? Settings
-//        // Reset the timer
-//        if timer != nil {
-//            timer.invalidate()
-//            timer = nil
-//        }
-//        scheduleJobReadSensor()
-//    }
     
     override func viewWillAppear(animated: Bool) {
         fetchData()
         
+        // Set home page background
         if (settings?.homePagePhoto == nil)
         {
             babyPhone.image = UIImage(named: "baby_smile")
@@ -78,7 +65,7 @@ class HomeController: UIViewController {
             babyPhone.image = image
         }
         
-        // TODO: FROM SENSOR
+        // Set home page temperature
         if settings?.temperature ==  nil{
             latestUpdateTemp.text =  ""
             print("Have not read the temperature yet")
@@ -114,10 +101,6 @@ class HomeController: UIViewController {
                 return
             }
         }
-    }
-    
-    // Reset the latest temperature
-    func resetTemp(){
     }
     
     required init?(coder aDecoder:NSCoder){

@@ -12,6 +12,7 @@ protocol  SetBabyNameDelegate {
     func setBabyName(name:String)
 }
 
+// This controller is only for setting baby's name
 class BabyNameController: UIViewController {
     
     var setBabyNameDelegate : SetBabyNameDelegate?

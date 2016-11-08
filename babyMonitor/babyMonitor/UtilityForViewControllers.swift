@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// This controller provides some basic utility tools for the application
 extension UIViewController {
     
     

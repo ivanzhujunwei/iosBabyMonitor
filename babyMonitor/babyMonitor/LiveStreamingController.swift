@@ -8,6 +8,8 @@
 
 import UIKit
 
+// Live streaming controller
+// Display the baby live streaming
 class LiveStreamingController: UIViewController, UIWebViewDelegate {
 
     @IBOutlet var babyWebView: UIWebView!
@@ -26,8 +28,8 @@ class LiveStreamingController: UIViewController, UIWebViewDelegate {
             "<iframe width=\"\(self.babyWebView.frame.width)\" height=\"\(self.babyWebView.frame.height)\" src=\"\(videoUrl)?playsinline=1\" frameborder=\"0\" allowfullscreen></iframe>", baseURL: nil)
     }
     
-    
     func webViewDidFinishLoad(webView: UIWebView) {
+        // stackoverflow.com/questions/3936041/how-to-determine-the-content-size-of-a-uiwebview
         webView.frame.size.height = 1
         webView.frame.size = webView.sizeThatFits(CGSizeZero)
     }

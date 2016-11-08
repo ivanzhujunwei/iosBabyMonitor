@@ -9,20 +9,26 @@
 import UIKit
 import CoreData
 
-
+// Baby activity type
 enum BabyActityType : String {
         case CRY, WET, COLD, OUTOFSIGHT, START, END
     }
+
+// The controller display all the history activity log
+// All the server data is processed in this controller
 class ActivityController: UITableViewController {
     
     var managedObjectContext : NSManagedObjectContext?
     
     // the activity list that is being displayed
     var babyActivities: [BabyActivity]!
+    
+    // Application settings stored in Core data
     var settings: Settings!
     
-//    var timePeriod : Double!
+    // Theme color
     let themeColor = UIColor(red: 255/255, green: 80/255, blue: 80/255, alpha: 1.0)
+    
     var timer:NSTimer!
     
     required init?(coder aDecoder:NSCoder){
@@ -54,7 +60,7 @@ class ActivityController: UITableViewController {
         self.tableView.reloadData()
     }
     
-//    // Reset all the settings
+    // Reset all the settings
     func resetSettings(notification: NSNotification){
         settings = notification.object as! Settings
         // Reset the timer
@@ -106,7 +112,7 @@ class ActivityController: UITableViewController {
                 settings.babyCryVolume = 1700
             }else{
             // Initialise the babyActivities using fetch results
-                settings = fetchSettingResults[0]
+            settings = fetchSettingResults[0]
             }
             
         }catch{
@@ -150,7 +156,7 @@ class ActivityController: UITableViewController {
     // Get time in a format text
     func getTimeText(date: NSDate) -> String{
         let dateFormatter = NSDateFormatter()
-//        dateFormatter.dateStyle = NSDateFormatterStyle.LongStyle
+        // dateFormatter.dateStyle = NSDateFormatterStyle.LongStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
         return dateFormatter.stringFromDate(date)
     }
@@ -176,7 +182,8 @@ class ActivityController: UITableViewController {
         }
         // Read from mositure sensor
         if settings.diaperWetOn == 1 {
-//            readMositureData()
+            // Get mositure data or not is based on the sound sensor, see in readSensorData()
+            // readMositureData()
         }
         // Read from the temperature sensor
         if settings.tempAnomaly == 1 {
@@ -184,9 +191,7 @@ class ActivityController: UITableViewController {
             readTempData()
             let homeController = self.tabBarController?.viewControllers![0].childViewControllers[0] as! HomeController
             homeController.viewWillAppear(true)
-
         }
-        // Refresh Home page 
         
     }
     
@@ -344,7 +349,6 @@ class ActivityController: UITableViewController {
         let faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: accuracy)
         let faces = faceDetector!.featuresInImage(personciImage) as! [CIFaceFeature]
         if faces.count == 0 {
-//            addBabyActivityInApp(BabyActityType.OUTOFSIGHT.rawValue)
             return "OutOfSight"
         }
         return "Detected"
@@ -360,7 +364,7 @@ class ActivityController: UITableViewController {
             // If the time interval between the two activities with same type is less than 5 miniutes
             // Then the APP will not record this activity as well as not sending notifications
             if activity.type == type {
-                print(minutesFrom(activity.date!))
+//                print(minutesFrom(activity.date!))
                 if minutesFrom(activity.date!) < 2 {
                     return true
                 }else{
@@ -466,6 +470,7 @@ class ActivityController: UITableViewController {
 
 
     // MARK: - Navigation
+    // The data is prepared for chart controller
     var pieChartData :  Dictionary<String, Int>!
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if identifier == "chartSeg"{
@@ -474,6 +479,7 @@ class ActivityController: UITableViewController {
                 let activity = babyActivities[i]
                 if activity.type != BabyActityType.START.rawValue && activity.type != BabyActityType.END.rawValue
                 {
+                    // Analysis  the activities except START and END activity
                     let key = activity.type!
                     if  pieChartData.indexForKey(key) == nil {
                         pieChartData.updateValue(1, forKey: key)
@@ -483,6 +489,7 @@ class ActivityController: UITableViewController {
                     }
                 }
             }
+            // If the piechart has no data, it will not allowed to view the chart
             if pieChartData.count == 0{
                 self.showAlertWithDismiss("Reminder", message: "No activity yet.")
                 return false

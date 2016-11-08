@@ -9,21 +9,26 @@
 import UIKit
 import CoreData
 
+// This controller provide the configuration for this application
+// User can turn on/off monitor and notification for baby crying, diaper wet, temperature anomaly
+// User can choose a photo from local album as the background for home page and reset to default background
+// User can set baby's name
 class SettingController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SetBabyNameDelegate {
     
     var managedObjectContext : NSManagedObjectContext!
+    // Application settings stored in Core data
     var settings:Settings!
 
+    // Cells in the tableview
     var monitorCell : SettingCell!
     var cryCell : SettingCell!
     var diaperCell : SettingCell!
     var quiltCell : SettingCell!
     var monitorTimeCell : SettingTimePeriodCell!
     var volumeCell : SettingVolumeCell!
-    
     var resetHomeImgCell : SettingDefaultImgCell!
     
-    // Time period settings
+    // MARK: Time period settings
     // 10 seconds
     let realTime = 10
     // 5 miniutes
@@ -31,7 +36,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     // 15 miniutes
     let fifteenMin = 900
     
-    
+    // Application theme color
     let themeColor = UIColor(red: 255/255, green: 80/255, blue: 80/255, alpha: 1.0)
     
     required init?(coder aDecoder:NSCoder){
@@ -53,6 +58,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         tableView.tableFooterView = UIView()
         
         initCells()
+        // Add target functions to different tableView Cells
         monitorCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffSubControls), forControlEvents: UIControlEvents.ValueChanged)
         cryCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffCryNotification), forControlEvents: UIControlEvents.ValueChanged)
         diaperCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffDiaperNotification), forControlEvents: UIControlEvents.ValueChanged)
@@ -131,6 +137,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         }
     }
     
+    // All sub monitors are controlled by the top monitor
     func turnOffSubControls(toggle: UISwitch){
         if toggle.on {
             settings?.monitor = true
@@ -148,7 +155,9 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
             monitorTimeCell.timePeriod.enabled = false
             volumeCell.volumeSlider.enabled = false
         }
+        // Reset settings
         NSNotificationCenter.defaultCenter().postNotificationName("resetSettingsId", object: settings)
+        // Add START/END activity log
         NSNotificationCenter.defaultCenter().postNotificationName("addActivityStartOrEndId", object: toggle)
         do{
             try managedObjectContext.save()
@@ -169,7 +178,6 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         }else{
             settings.babyCryOn = false
             settings.diaperWetOn = false
-            
             volumeCell.volumeSlider.enabled = false
             diaperCell.switchOnOff.enabled = false
             diaperCell.switchOnOff.on = false
@@ -215,6 +223,9 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         NSNotificationCenter.defaultCenter().postNotificationName("resetSettingsId", object: settings)
     }
     
+    // User can change the sensetivity of baby cry notification
+    // If the sensitivity is high, parents will get notified at a low volume when baby cry
+    // If the sensitivity is low, parents will only get notified when baby cry severe
     func changeVolume(){
         let volume = 2200 - volumeCell.volumeSlider.value * 50
         let str = NSString(format: "%.f", volumeCell.volumeSlider.value)

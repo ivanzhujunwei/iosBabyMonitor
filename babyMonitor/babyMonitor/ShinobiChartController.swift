@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+// This controller is displaying the pie chart
 class ShinobiChartController: UIViewController, SChartDatasource, SChartDelegate {
 
     @IBOutlet weak var chart: ShinobiChart!
@@ -34,6 +34,8 @@ class ShinobiChartController: UIViewController, SChartDatasource, SChartDelegate
         var monitorTime = 0
         var startTime:NSDate!
         var endTime:NSDate!
+        
+        // Generating the title name based on the time
         for i in 0 ..< babyActivities.count {
             let activity = babyActivities[i]
 //        }
@@ -87,13 +89,16 @@ class ShinobiChartController: UIViewController, SChartDatasource, SChartDelegate
     
     func sChart(chart: ShinobiChart, seriesAtIndex index: Int) -> SChartSeries {
         let series = SChartPieSeries()
+        // Set series font
         series.style().labelFont = UIFont.systemFontOfSize(20)
+        // Set the distance for selected series
         series.selectedStyle().protrusion = 20
         series.gesturePanningEnabled = true
         return series
         
     }
     
+    // How many objects in the data needed to be analysised
     func sChart(chart: ShinobiChart, numberOfDataPointsForSeriesAtIndex seriesIndex: Int) -> Int {
         print(pieChartData.count)
         return pieChartData.count
