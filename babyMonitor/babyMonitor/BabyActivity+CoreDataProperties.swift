@@ -2,7 +2,7 @@
 //  BabyActivity+CoreDataProperties.swift
 //  babyMonitor
 //
-//  Created by zjw on 27/10/16.
+//  Created by zjw on 11/11/16.
 //  Copyright © 2016 FIT5140. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -18,6 +18,6 @@ extension BabyActivity {
     @NSManaged var date: NSDate?
     @NSManaged var icon: String?
     @NSManaged var type: String?
-
+    @NSManaged var state: NSNumber?
 
 }

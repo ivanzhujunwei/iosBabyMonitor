@@ -17,6 +17,9 @@ class BabyActivity: NSManagedObject {
     func initByType()->BabyActivity{
 //        let babyName = "Kevin "
         self.date = NSDate()
+        // if the state = 1, meaning it's the activity in current monitoring phase [new]
+        // if the state = 0, meaning it's the history activity in previous monitoring phase [history]
+        self.state = 1
         switch self.type!{
         case BabyActityType.CRY.rawValue:
             self.activityName = "cried"

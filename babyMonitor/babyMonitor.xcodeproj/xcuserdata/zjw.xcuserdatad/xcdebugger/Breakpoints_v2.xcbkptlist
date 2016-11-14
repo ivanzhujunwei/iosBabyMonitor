@@ -10,12 +10,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "babyMonitor/ActivityController.swift"
-            timestampString = "500272999.893594"
+            timestampString = "500626756.202784"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
-            landmarkName = "readSoundData()"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
+            landmarkName = "readMositureData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "babyMonitor/SettingController.swift"
+            timestampString = "500696634.27858"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "initCells()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

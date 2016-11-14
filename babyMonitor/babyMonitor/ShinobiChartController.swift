@@ -30,6 +30,7 @@ class ShinobiChartController: UIViewController, SChartDatasource, SChartDelegate
 
         // Do any additional setup after loading the view.
 //        pieChartData = Dictionary<String, Int>()
+        chart.legend.hidden = UIDevice.currentDevice().userInterfaceIdiom == .Phone
         
         var monitorTime = 0
         var startTime:NSDate!
@@ -74,9 +75,13 @@ class ShinobiChartController: UIViewController, SChartDatasource, SChartDelegate
 //                    pieChartData.updateValue(v, forKey: key)
 //                }
 //            }
+            
+            
+            
         }
     }
-
+   
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -95,12 +100,10 @@ class ShinobiChartController: UIViewController, SChartDatasource, SChartDelegate
         series.selectedStyle().protrusion = 20
         series.gesturePanningEnabled = true
         return series
-        
     }
     
     // How many objects in the data needed to be analysised
     func sChart(chart: ShinobiChart, numberOfDataPointsForSeriesAtIndex seriesIndex: Int) -> Int {
-        print(pieChartData.count)
         return pieChartData.count
     }
     
@@ -124,25 +127,25 @@ class ShinobiChartController: UIViewController, SChartDatasource, SChartDelegate
         let count = Int(pieChartData[key]!)
         switch key {
         case BabyActityType.COLD.rawValue:
-            label.text = "Felt cold, "
+            label.text = "Felt cold / "
             break
         case BabyActityType.WET.rawValue:
-            label.text = "Diaper wet, "
+            label.text = "Diaper wet / "
             break
         case BabyActityType.OUTOFSIGHT.rawValue:
-            label.text = "OutOfSight, "
+            label.text = "OutOfSight / "
             break
         case BabyActityType.CRY.rawValue:
-            label.text = "Cried, "
+            label.text = "Cried / "
             break
         default:
-            label.text = "Unknown, "
+            label.text = "Unknown / "
         }
         label.text = label.text! + String(count)
         label.font = UIFont.systemFontOfSize(10)
         return label
-        
     }
+    
     /*
     // MARK: - Navigation
 

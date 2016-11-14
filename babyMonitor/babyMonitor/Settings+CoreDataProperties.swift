@@ -2,7 +2,7 @@
 //  Settings+CoreDataProperties.swift
 //  babyMonitor
 //
-//  Created by zjw on 4/11/16.
+//  Created by zjw on 11/11/16.
 //  Copyright © 2016 FIT5140. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -25,5 +25,6 @@ extension Settings {
     @NSManaged var temperature: NSNumber?
     @NSManaged var timePeriod: NSNumber?
     @NSManaged var useDefaultHomePage: NSNumber?
+    @NSManaged var sightOn: NSNumber?
 
 }

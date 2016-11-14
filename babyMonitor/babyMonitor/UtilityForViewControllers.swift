@@ -44,6 +44,13 @@ extension UIViewController {
         return dateFormatter.stringFromDate(date)
     }
     
+    // Get date in text format
+    func getDateShortText(date: NSDate) -> String{
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        return dateFormatter.stringFromDate(date)
+    }
+    
     func showAlertWithDismiss(title:String, message:String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         let alertDismissAction = UIAlertAction(title: "OK", style: .Default, handler: nil)

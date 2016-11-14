@@ -21,11 +21,14 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
 
     // Cells in the tableview
     var monitorCell : SettingCell!
+    var monitorTimeCell : SettingTimePeriodCell!
+    
     var cryCell : SettingCell!
+    var volumeCell : SettingVolumeCell!
+    var outOfSightCell : SettingCell!
     var diaperCell : SettingCell!
     var quiltCell : SettingCell!
-    var monitorTimeCell : SettingTimePeriodCell!
-    var volumeCell : SettingVolumeCell!
+    
     var resetHomeImgCell : SettingDefaultImgCell!
     
     // MARK: Time period settings
@@ -66,6 +69,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         monitorTimeCell.timePeriod.addTarget(self, action: #selector(SettingController.changeTimePeriod), forControlEvents: UIControlEvents.ValueChanged)
         volumeCell.volumeSlider.addTarget(self, action: #selector(SettingController.changeVolume), forControlEvents: UIControlEvents.ValueChanged)
         resetHomeImgCell.resetHomeImg.addTarget(self, action: #selector(SettingController.resetHomeImge), forControlEvents: UIControlEvents.TouchDown)
+        outOfSightCell.switchOnOff.addTarget(self, action: #selector(SettingController.turnOffOutSightNotification), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     // Initialise tableView cells
@@ -75,21 +79,56 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
 
         cryCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as! SettingCell
         volumeCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! SettingVolumeCell
-        diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
-        quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 1)) as! SettingCell
-        resetHomeImgCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 2)) as! SettingDefaultImgCell
+        outOfSightCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 1)) as! SettingCell
+        diaperCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 1)) as! SettingCell
+        
+        quiltCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection:2)) as! SettingCell
+        
+        resetHomeImgCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 3)) as! SettingDefaultImgCell
         
         // Initialise status of switches
-        if monitorCell.switchOnOff.on {
-            cryCell.switchOnOff.enabled = true
-            diaperCell.switchOnOff.enabled = true
-            quiltCell.switchOnOff.enabled = true
+//        if monitorCell.switchOnOff.on {
+//            monitorTimeCell.timePeriod.enabled = true
+//            cryCell.switchOnOff.enabled = true
+//            quiltCell.switchOnOff.enabled = true
+//        }else{
+//            monitorTimeCell.timePeriod.enabled = false
+//            cryCell.switchOnOff.enabled = false
+//            quiltCell.switchOnOff.enabled = false
+//        }
+//        
+//        if cryCell.switchOnOff.on && cryCell.switchOnOff.enabled{
+//            volumeCell.volumeSlider.enabled = true
+//            outOfSightCell.switchOnOff.enabled = true
+//            diaperCell.switchOnOff.enabled = true
+//        }else if !cryCell.switchOnOff.on || !cryCell.switchOnOff.enabled{
+//            volumeCell.volumeSlider.enabled = false
+//            outOfSightCell.switchOnOff.enabled = false
+//            diaperCell.switchOnOff.enabled = false        
+//        }
+        initSwitchState(monitorCell.switchOnOff)
+    }
+    
+    func initSwitchState(toogle:UISwitch){
+        // Initialise status of switches
+        if toogle.on {
             monitorTimeCell.timePeriod.enabled = true
+            cryCell.switchOnOff.enabled = true
+            quiltCell.switchOnOff.enabled = true
         }else{
-            cryCell.switchOnOff.enabled = false
-            diaperCell.switchOnOff.enabled = false
-            quiltCell.switchOnOff.enabled = false
             monitorTimeCell.timePeriod.enabled = false
+            cryCell.switchOnOff.enabled = false
+            quiltCell.switchOnOff.enabled = false
+        }
+        
+        if cryCell.switchOnOff.on && cryCell.switchOnOff.enabled{
+            volumeCell.volumeSlider.enabled = true
+            outOfSightCell.switchOnOff.enabled = true
+            diaperCell.switchOnOff.enabled = true
+        }else if !cryCell.switchOnOff.on || !cryCell.switchOnOff.enabled{
+            volumeCell.volumeSlider.enabled = false
+            outOfSightCell.switchOnOff.enabled = false
+            diaperCell.switchOnOff.enabled = false
         }
     }
     
@@ -119,7 +158,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Two section in this tableView
-        return 4
+        return 5
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -127,12 +166,15 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         if section == 0{
             return 2
         }else if section == 1 {
-            // second section: sub controls: baby cry, diaper wet, temperature
+            // second section: sub controls: baby cry, diaper wet,
             return 4
         }else if section == 2{
-            // third section: choose picture from ablum
+            // third section: sub control: temperature
+            return 1
+        }else if section == 3{
+            // fourth section: choose picture from ablum
             return 2
-        }else {
+        }else{
             return 1
         }
     }
@@ -141,20 +183,27 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     func turnOffSubControls(toggle: UISwitch){
         if toggle.on {
             settings?.monitor = true
-            cryCell.switchOnOff.enabled = true
-            diaperCell.switchOnOff.enabled = true
-            quiltCell.switchOnOff.enabled = true
-            monitorTimeCell.timePeriod.enabled = true
-            volumeCell.volumeSlider.enabled = true
-            
+//            cryCell.switchOnOff.enabled = true
+//            diaperCell.switchOnOff.enabled = true
+//            quiltCell.switchOnOff.enabled = true
+//            monitorTimeCell.timePeriod.enabled = true
+//            volumeCell.volumeSlider.enabled = true
+//            outOfSightCell.switchOnOff.enabled = true
         }else{
             settings?.monitor = false
-            cryCell.switchOnOff.enabled = false
-            diaperCell.switchOnOff.enabled = false
-            quiltCell.switchOnOff.enabled = false
-            monitorTimeCell.timePeriod.enabled = false
-            volumeCell.volumeSlider.enabled = false
+//            cryCell.switchOnOff.enabled = false
+//            diaperCell.switchOnOff.enabled = false
+//            quiltCell.switchOnOff.enabled = false
+//            monitorTimeCell.timePeriod.enabled = false
+//            volumeCell.volumeSlider.enabled = false
+//            outOfSightCell.switchOnOff.enabled = false            
         }
+        
+        // Initialise status of switches
+        initSwitchState(toggle)
+        
+        // Set activity state to history state
+        NSNotificationCenter.defaultCenter().postNotificationName("setHistoryActivity", object: nil)
         // Reset settings
         NSNotificationCenter.defaultCenter().postNotificationName("resetSettingsId", object: settings)
         // Add START/END activity log
@@ -171,16 +220,21 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         if toggle.on {
             settings.babyCryOn = true
             settings.diaperWetOn = true
-            
+            settings.sightOn = true
             volumeCell.volumeSlider.enabled = true
             diaperCell.switchOnOff.enabled = true
             diaperCell.switchOnOff.on = true
+            outOfSightCell.switchOnOff.enabled = true
+            outOfSightCell.switchOnOff.on = true
         }else{
             settings.babyCryOn = false
             settings.diaperWetOn = false
+            settings.sightOn = false
             volumeCell.volumeSlider.enabled = false
             diaperCell.switchOnOff.enabled = false
             diaperCell.switchOnOff.on = false
+            outOfSightCell.switchOnOff.enabled = false
+            outOfSightCell.switchOnOff.on = false
         }
         do{
             try managedObjectContext.save()
@@ -253,6 +307,20 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
         showAlertWithDismiss("Done", message: "Reset successfully")
     }
     
+    // Save status of out of sight to core data entity
+    func turnOffOutSightNotification(toggle: UISwitch){
+        if toggle.on {
+            settings.sightOn = true
+        }else{
+            settings.sightOn = false
+        }
+        do{
+            try managedObjectContext.save()
+        }catch{
+            fatalError("Failure to save contect: \(error)")
+        }
+    }
+    
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -296,22 +364,34 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
                 // set none select style
                 settingCell.selectionStyle = UITableViewCellSelectionStyle.None
                 settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
-
-                settingCell.textLabel?.text = "Diaper wet"
-                settingCell.switchOnOff.on = Bool(settings.diaperWetOn!)
+                
+                settingCell.textLabel?.text = "Out of sight"
+                settingCell.switchOnOff.on = Bool(settings.sightOn!)
                 return settingCell
             default:
                 let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
                 // set none select style
                 settingCell.selectionStyle = UITableViewCellSelectionStyle.None
                 settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
-
-                settingCell.textLabel?.text = "Temperature anomaly"
-                settingCell.switchOnOff.on = Bool(settings.tempAnomaly!)
+                
+                settingCell.textLabel?.text = "Diaper wet"
+                settingCell.switchOnOff.on = Bool(settings.diaperWetOn!)
                 return settingCell
                 
             }
-        }else if indexPath.section == 2{
+        }else if indexPath.section == 2 {
+            let settingCell = tableView.dequeueReusableCellWithIdentifier("settingCell", forIndexPath: indexPath) as! SettingCell
+            // set none select style
+            settingCell.selectionStyle = UITableViewCellSelectionStyle.None
+            settingCell.contentView.bringSubviewToFront(settingCell.switchOnOff)
+            
+            settingCell.textLabel?.text = "Temperature anomaly"
+            settingCell.switchOnOff.on = Bool(settings.tempAnomaly!)
+            return settingCell
+        
+        }
+        
+        else if indexPath.section == 3{
             switch indexPath.row{
             case 0:
                 let choosePhotoCell = tableView.dequeueReusableCellWithIdentifier("choosePhotoCell", forIndexPath: indexPath) as UITableViewCell
@@ -340,7 +420,7 @@ class SettingController: UITableViewController, UIImagePickerControllerDelegate,
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // If the user click to select a photo
-        if indexPath.section == 2 && indexPath.row == 0{
+        if indexPath.section == 3 && indexPath.row == 0{
             // Reference: www.youtube.com/watch?v=leyk3QOYJF0
             let photoPicker = UIImagePickerController()
             photoPicker.delegate = self

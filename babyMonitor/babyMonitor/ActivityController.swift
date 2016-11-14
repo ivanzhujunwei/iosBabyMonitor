@@ -41,6 +41,32 @@ class ActivityController: UITableViewController {
         // Add notificatioin for reset settings
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(resetSettings), name: "resetSettingsId", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addActivityStartOrEnd), name: "addActivityStartOrEndId", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setHistoryActivity), name: "setHistoryActivity", object: nil)
+        
+             // Mockup: new BabyActivity object
+        
+//             let activity = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
+//                activity.type = BabyActityType.CRY.rawValue
+//                activity.initByType()
+//        
+//                let activity2 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
+//                activity2.type = BabyActityType.WET.rawValue
+//                activity2.initByType()
+//        
+//                let activity3 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
+//                activity3.type = BabyActityType.COLD.rawValue
+//                activity3.initByType()
+//        
+//        
+//                let activity0 = NSEntityDescription.insertNewObjectForEntityForName("BabyActivity", inManagedObjectContext: managedObjectContext!) as! BabyActivity
+//                activity0.type = BabyActityType.START.rawValue
+//                activity0.initByType()
+//        
+//        
+//                babyActivities.append(activity0)
+//                babyActivities.append(activity)
+//                babyActivities.append(activity2)
+//                babyActivities.append(activity3)
     }
     
     // If user turn on the monitor switch, add a START activity
@@ -51,6 +77,15 @@ class ActivityController: UITableViewController {
             addBabyActivityInApp(BabyActityType.START.rawValue)
         }else{
             addBabyActivityInApp(BabyActityType.END.rawValue)
+        }
+    }
+    
+    // Set activity to history state
+    func setHistoryActivity(){
+        for a in babyActivities {
+            if a.state == 1 {
+                a.state = 0
+            }
         }
     }
     
@@ -145,6 +180,14 @@ class ActivityController: UITableViewController {
             let dateTxt = getDateText(babyActivity.date!)
             let appendStr = "on \(dateTxt)" as String
             activityCell.activityName.text? += appendStr
+        }
+        // set font color based on activity state
+        if babyActivity.state == 0 {
+            activityCell.activityName?.textColor = UIColor.grayColor()
+            activityCell.time.textColor = UIColor.grayColor()
+        }else if babyActivity.state == 1{
+            activityCell.activityName?.textColor = UIColor.blackColor()
+            activityCell.time.textColor = UIColor.blackColor()
         }
         activityCell.icon.image =  babyActivity.getIconForActivity()
         activityCell.time.text = getTimeText(babyActivity.date!)
@@ -259,8 +302,9 @@ class ActivityController: UITableViewController {
                         self.addBabyActivityInApp(BabyActityType.WET.rawValue)
                     }
                 }else{
-                    if !self.ifSameActivityIn2Min(BabyActityType.CRY.rawValue){
+                    if !self.ifSameActivityIn2Min(BabyActityType.CRY.rawValue) && !self.ifSameActivityIn2Min(BabyActityType.WET.rawValue){
                         self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " cried, was missing you")
+                        self.addBabyActivityInApp(BabyActityType.CRY.rawValue)
                         print("Baby's diaper is dry")
                     }
                 }
@@ -302,20 +346,32 @@ class ActivityController: UITableViewController {
                     let babyName = self.settings.babyName!
                     let warning = "Warning"
                     print("------------Start--------------")
-                    self.addBabyActivityInApp(BabyActityType.CRY.rawValue)
-                    let outOfSightOrnot = self.detect()
+                    
+                    var result = "Detected"
+                    // If the notification of out of sight is turned on
+                    if self.settings.sightOn == 1 {
+                        // Detect if the baby is in sight or not
+                        result = self.detect()
+                    }
                     // If the baby is out of sight
-                    if outOfSightOrnot == "OutOfSight" {
+                    if result == "OutOfSight" {
                         print("Baby was out of sight...")
                         if !self.ifSameActivityIn2Min(BabyActityType.OUTOFSIGHT.rawValue){
                             self.showAlertWithDismiss(warning, message: babyName + " was out of sight.")
                             self.addBabyActivityInApp(BabyActityType.OUTOFSIGHT.rawValue)
                         }
-                    }else if outOfSightOrnot == "Detected"{
+                    }else if result == "Detected"{
                         // If baby is in sight and peed
                         if self.settings.diaperWetOn == 1 {
                             print("Face detected, then detect if baby peed or not")
                             self.readMositureData()
+                        }else {
+                            print("Diaper wet switch is turned off")
+                            if !self.ifSameActivityIn2Min(BabyActityType.CRY.rawValue) {
+                                self.showAlertWithDismiss("Warning", message: self.settings.babyName! + " cried, was missing you")
+                                self.addBabyActivityInApp(BabyActityType.CRY.rawValue)
+                            }
+
                         }
                     }
                     // Add the cry activity
