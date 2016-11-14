@@ -209,8 +209,13 @@ class ActivityController: UITableViewController {
         return 55
     }
     
+    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
+
     // MARK: Timely job to read sensors
     func scheduleJobReadSensor(){
+        backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
+            UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
+        })
         if Bool(settings.monitor!) {
             timer = NSTimer.scheduledTimerWithTimeInterval(Double(settings.timePeriod!), target: self, selector: #selector(ActivityController.readSensors), userInfo: nil, repeats: true)
         }
@@ -401,6 +406,7 @@ class ActivityController: UITableViewController {
         else {
             return "Unknown"
         }
+        // Using core image here
         let accuracy = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
         let faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: accuracy)
         let faces = faceDetector!.featuresInImage(personciImage) as! [CIFaceFeature]

@@ -52,11 +52,27 @@ extension UIViewController {
     }
     
     func showAlertWithDismiss(title:String, message:String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let alertDismissAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alertController.addAction(alertDismissAction)
-        self.presentViewController(alertController, animated: true, completion: nil)
+//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+//        let alertDismissAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+//        alertController.addAction(alertDismissAction)
+//        self.presentViewController(alertController, animated: true, completion: nil)
+        
+        if UIApplication.sharedApplication().applicationState == .Active {
+            // App is active, show an alert
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+            let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(alertAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+        } else {
+            // App is inactive, show a notification
+            let notification = UILocalNotification()
+            notification.alertTitle = title
+            notification.alertBody = message
+            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        }
+
     }
+    
     
 }
 

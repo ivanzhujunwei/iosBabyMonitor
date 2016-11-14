@@ -12,9 +12,11 @@ import UIKit
 class ShinobiChartController: UIViewController, SChartDatasource, SChartDelegate {
 
     @IBOutlet weak var chart: ShinobiChart!
-    
+    // baby activities analysised
     var babyActivities : [BabyActivity]!
+    // the pie chart data which is going to be used
     var pieChartData : Dictionary<String, Int>!
+    // baby name
     var babyName : String!
     
     override func viewDidLoad() {
@@ -39,12 +41,9 @@ class ShinobiChartController: UIViewController, SChartDatasource, SChartDelegate
         // Generating the title name based on the time
         for i in 0 ..< babyActivities.count {
             let activity = babyActivities[i]
-//        }
-//        for activity in babyActivities {
             // Count the monitoring time
             if activity.type == BabyActityType.START.rawValue{
                 startTime = activity.date!
-                //|| activity.type == BabyActityType.END.rawValue{
             }
             if activity.type == BabyActityType.END.rawValue{
                 endTime = activity.date!

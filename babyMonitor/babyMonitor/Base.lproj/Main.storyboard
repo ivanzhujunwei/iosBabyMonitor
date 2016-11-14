@@ -63,7 +63,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Activity Log" id="nJX-ny-LFc">
-                        <barButtonItem key="rightBarButtonItem" title="Chat" id="co1-2o-VWF">
+                        <barButtonItem key="rightBarButtonItem" title="Chart" id="co1-2o-VWF">
                             <connections>
                                 <segue destination="lOI-FB-amS" kind="show" identifier="chartSeg" id="aeu-fB-TWz"/>
                             </connections>
